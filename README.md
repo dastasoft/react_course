@@ -149,3 +149,110 @@ import Person from './Person/Person';
 - Is not necessary to define the extension .js this will be added automatically in build time for js files.
 - Use the first letter as a capital letter in order to indicate this is a custom tag.
 - In this example ```Person``` component does not have any nested components we can self close the tag.
+
+
+### Passing Properties
+
+The great thing about components it's they are reusable, and for being really reusable we want to pass data for the different instances of our components.
+
+If we check the "HTML" of the component:
+
+```javascript
+<Person name="Squall" job="Gunblade" />
+```
+
+In the component itself we can recieve the arguments with:
+
+```javascript
+const person = (props) => {
+    return (
+        <p>I'm {props.name} and my job is {props.job}.</p>
+    );
+};
+```
+
+_If we are using a class-base component it will be ```this.props```_
+
+There's also another way of passing data from the "HTML" to the component logic and it's using a content in between of the component tag.
+
+```javascript
+<Person name="Squall" job="Gunblade" >Skills: Summumm</Person>
+```
+
+In order to retrieve the content we can use the ```children``` property:
+
+```javascript
+const person = (props) => {
+    return (
+        <div>
+            <p>I'm {props.name} and my job is {props.job}.</p>
+            <p>{props.children}</p>
+        </div>
+    );
+};
+```
+
+Take care if you define an attribute named ```children``` on the tag:
+
+```javascript
+<Person name="Squall" job="Gunblade" children="This will not be rendered because I already have children elements" >Skills: Summumm</Person>
+
+<Person name="Squall" job="Gunblade" children="This will not be rendered because I do not have children elements" />
+```
+
+In the first example, the content under children attribute will not be accesible with ```props.children```.
+
+### State propertie
+
+Class-base component has an special keyword for manage internal data, the ```state```. In order to declare and use it your class-base component must extends from Component. **Check ```Hooks``` section in order to get updated about this information.**
+
+```javascript
+state = {
+    characters: [
+      { name: 'Squall', job: 'Gunblade' },
+      { name: 'Rinoa', job: 'Ranger' },
+      { name: 'Zell', job: 'Monk' }
+    ],
+    otherProp = 'other propertie'
+};
+
+<Person name={this.state.characters[1].name} job={this.state.characters[1].job} />
+```
+
+For update the state, we must pass the entire object of the property we want to update.
+
+```javascript
+this.setState({
+    characters: [
+    { name: 'Squall', job: 'Samurai' },
+    { name: 'Rinoa', job: 'Witch' },
+    { name: 'Zell', job: 'Duelist' }
+    ]
+});
+```
+
+**Do NOT mutate the state directly, React will ignore the changes. Instead use ```this.setState()```**
+
+_Keep in mind any changes to props and/or state trigger React to re-render your components an ppotentially update the DOPM in the browser._
+
+
+### Event Listeners
+
+Let's put an example with the ```onclick``` event.
+
+On our class-base component we create:
+
+```jsx
+switchJobHandler = () => {
+    console.log('Was clicked!');
+};
+
+<button onClick={this.switchJobHandler}>Switch Jobs</button>
+```
+
+Here are three important things:
+- The function is declarated with ES6 syntax because it's inside of a class and if you do a normal function declaration, later on you will face problems with ```this``` keyword. (Normal functions create a new this scope for themselves, arrow functions instead shares the scope of this with the parent.).
+- The onclick event in JSX is ```camelCase```. Remember **this is not HTML**.
+- The function is written without () because we don't want to call it when the UI is rendered, for that we only pass the function and when onclick is triggered the call is done.
+
+You can see a complete list of Reac supported events [here](https://reactjs.org/docs/events.html#supported-events).
