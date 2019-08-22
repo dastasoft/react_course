@@ -21,15 +21,43 @@ class App extends Component {
     });
   };
 
+  inputJobHandler = (event) => {
+    this.setState({
+      characters: [
+        this.state.characters[0],
+        { name: this.state.characters[1].name, job: event.target.value },
+        this.state.characters[2]
+      ]
+    });
+  }
+
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
     return (
       <div className="App">
         <h1>Hi, I'm a React App.</h1>
         <p>This is really working!</p>
-        <button onClick={this.switchJobHandler}>Switch Jobs</button>
-        <Person name={this.state.characters[0].name} job={this.state.characters[0].job} >Skills: Summumm</Person>
-        <Person name={this.state.characters[1].name} job={this.state.characters[1].job} />
-        <Person name={this.state.characters[2].name} job={this.state.characters[2].job} />
+        <button
+          style={style} 
+          onClick={this.switchJobHandler}>Switch Jobs</button>
+        <Person 
+          name={this.state.characters[0].name} 
+          job={this.state.characters[0].job} 
+          click={this.switchJobHandler} >Skills: Summumm</Person>
+        <Person 
+          name={this.state.characters[1].name} 
+          job={this.state.characters[1].job} 
+          inputJob={this.inputJobHandler} />
+        <Person 
+          name={this.state.characters[2].name} 
+          job={this.state.characters[2].job} />
       </div>
     );
 

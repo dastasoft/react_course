@@ -202,6 +202,50 @@ Take care if you define an attribute named ```children``` on the tag:
 
 In the first example, the content under children attribute will not be accesible with ```props.children```.
 
+### Passing functions as properties
+
+The ```props``` can contain function also no only properties
+
+```javascript
+<p onClick={props.click}>
+// ...
+</p>
+
+<Person 
+    name={this.state.characters[0].name} 
+    job={this.state.characters[0].job} 
+    click={this.switchJobHandler} 
+/>
+```
+
+If you need to pass arguments in the functions can be done in two different ways
+
+Imagine the next function:
+
+```javascript
+switchNameHandler = (newName) => {
+    this.setState({
+        characters: [
+            { name: newName, job: 'Samurai' },
+      ]
+    });
+}
+```
+
+In order to pass ```newName``` to the ```swiitchNameHandler``` we must bind it
+
+```javascript
+<button onClick={this.switchNameHandler.bind(this, 'Leon')}>Switch Name</button>
+```
+
+Or use an arrow function
+
+```javascript
+<button onClick={() => this.switchNameHandler('Leon')}>Switch Name</button>
+```
+
+_With the arrow function the ```switchNameHandler``` does not execute inmediatly instead, returns the execution when is call the onclick, **this way is more ineficient than bind option**._
+
 ### State propertie
 
 Class-base component has an special keyword for manage internal data, the ```state```. In order to declare and use it your class-base component must extends from Component. **Check ```Hooks``` section in order to get updated about this information.**
@@ -256,3 +300,51 @@ Here are three important things:
 - The function is written without () because we don't want to call it when the UI is rendered, for that we only pass the function and when onclick is triggered the call is done.
 
 You can see a complete list of Reac supported events [here](https://reactjs.org/docs/events.html#supported-events).
+
+### Styling components
+
+For apply style to our components the common pattern is create a separate ```.css``` file in the same folder of the component with the same name.
+
+Inside of our ```Person.css``` we will wrap everything with the component's name in order to prevent errors _Even if the css file is in the component's folder webpack adds the style in the ```index.html``` head, so **it has global access.**_
+
+```css
+.Person {
+    width: 60%;
+    margin: 16px auto;
+    border: 1px solid #eee;
+    border-radius: 2%;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+    text-align: center;
+}
+```
+
+On the ```.js``` file of the component we must import it and set the class
+
+```javascript
+import './Person.css';
+
+<div className="Person">
+<!-- ... --->
+</div>
+```
+
+_When Webpack add your css into the header of main HTML will be prefixing the css in order to work in all browsers._
+
+There's also inline style. 
+
+```javascript
+const style = {
+    backgroundColor: 'white',
+    font: 'inherit',
+    border: '1px solid blue',
+    padding: '8px',
+    cursor: 'pointer'
+};
+```
+
+_Remember is a JavaScript object not a CSS, for that reason ```camelCase``` instead of dashes._
+
+The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object. 
+
+A major downside of inline styles is some powerfull tools present in CSS you can't use it in this way.
