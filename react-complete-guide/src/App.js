@@ -8,15 +8,16 @@ class App extends Component {
       { name: 'Squall', job: 'Gunblade' },
       { name: 'Rinoa', job: 'Ranger' },
       { name: 'Zell', job: 'Monk' }
-    ]
+    ],
+    showPersons: true
   };
 
   switchJobHandler = () => {
     this.setState({
       characters: [
-        { name: 'Squall', job: 'Samurai' },
-        { name: 'Rinoa', job: 'Witch' },
-        { name: 'Zell', job: 'Duelist' }
+        { name: this.state.characters[0].name, job: 'Samurai' },
+        { name: this.state.characters[1].name, job: 'Witch' },
+        { name: this.state.characters[2].name, job: 'Duelist' }
       ]
     });
   };
@@ -31,33 +32,79 @@ class App extends Component {
     });
   }
 
+  changeNamesHandler = (...newNames) => {
+    this.setState({
+      characters: [
+        { name: newNames[0], job: this.state.characters[0].job },
+        { name: newNames[1], job: this.state.characters[1].job },
+        { name: newNames[2], job: this.state.characters[2].job }
+      ]
+    });
+  }
+
+  togglePersonsHandler = () => {
+    this.setState({showPersons: !this.state.showPersons});
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      margin: '0 5px auto'
     };
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.characters.map(person => {
+            return <Person name={person.name} job={person.job} />
+          })}
+        </div>
+      );
+    }
 
     return (
       <div className="App">
         <h1>Hi, I'm a React App.</h1>
         <p>This is really working!</p>
-        <button
-          style={style} 
-          onClick={this.switchJobHandler}>Switch Jobs</button>
-        <Person 
-          name={this.state.characters[0].name} 
-          job={this.state.characters[0].job} 
-          click={this.switchJobHandler} >Skills: Summumm</Person>
-        <Person 
-          name={this.state.characters[1].name} 
-          job={this.state.characters[1].job} 
-          inputJob={this.inputJobHandler} />
-        <Person 
-          name={this.state.characters[2].name} 
-          job={this.state.characters[2].job} />
+        <div>
+          <button
+            style={style} 
+            onClick={this.switchJobHandler}>Switch Jobs</button>
+          <button 
+            style={style}
+            onClick={this.changeNamesHandler.bind(this, 'Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>
+          {/*<button 
+            style={style}
+          onClick={() => this.changeNamesHandler('Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>*/}
+          <button
+            style={style}
+            onClick={this.togglePersonsHandler}>Toggle Characters</button>
+        </div>
+
+        {/*
+          this.state.showPersons ?
+            <div>
+              <Person 
+                name={this.state.characters[0].name} 
+                job={this.state.characters[0].job} 
+                click={this.switchJobHandler} >Skills: Summumm</Person>
+              <Person 
+                name={this.state.characters[1].name} 
+                job={this.state.characters[1].job} 
+                inputJob={this.inputJobHandler} />
+              <Person 
+                name={this.state.characters[2].name} 
+                job={this.state.characters[2].job} />
+            </div> : null
+        */}
+
+        {persons}
       </div>
     );
 

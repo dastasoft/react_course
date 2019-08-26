@@ -6,17 +6,17 @@ const userInput = (props) => {
         border: '1px solid blue',
         margin: 'auto',
         padding: '16px',
-        textAlign: 'center'
+        textAlign: 'center',
+        display: 'block'
     };
 
     return (
-        <div>
             <input 
                 type="text" 
-                onChange={props.updateUsername} value={props.username}
+                onChange={props.updateUsername} 
+                value={props.username}
                 style={style}
             />
-        </div>
     );
 };
 

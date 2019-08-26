@@ -348,3 +348,44 @@ _Remember is a JavaScript object not a CSS, for that reason ```camelCase``` inst
 The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object. 
 
 A major downside of inline styles is some powerfull tools present in CSS you can't use it in this way.
+
+## Render conditional content
+
+If you want render content in some scenarios you can wrap the code in JSX with {} and add a simple statement _If/else blocks does not work here_
+
+```jsx
+{
+    this.state.showPersons ? 
+        <div>
+            <Person />
+            <Person />
+        </div> : null
+}
+```
+
+With the code above you use the ternary operator to check if certain value is true or not, and if is true render a Person component.
+
+Another way of doing this (and more efficient) is doing the check inside the render function instead of on the return JSX.
+
+```javascript
+render () {
+    let persons = null;
+
+    if (this.state.showPersons) {
+        persons = (
+            <div>
+                <Person />
+                <Person />
+            </div>
+        );
+    }
+
+    return (
+        {persons}
+    );
+}
+```
+
+In this example the code is small and it's no difference which way you choose, but when you have more conditionals and nested conditionals this is the best way to do it.
+
+## Render List
