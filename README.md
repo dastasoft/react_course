@@ -389,3 +389,36 @@ render () {
 In this example the code is small and it's no difference which way you choose, but when you have more conditionals and nested conditionals this is the best way to do it.
 
 ## Render List
+
+For render lists on React we will use the provided methods in JavaScript
+
+```javascript
+return (
+    <div>
+      {this.state.characters.map(person => {
+        return <Person
+                  name={person.name} 
+                  job={person.job} />
+      })}
+    </div>
+);
+```
+
+React will try to print any array that it's returned and contain a object model that React understand, in the example above we "translate" our characters array stored in the state into a Person component which React knows how to render.
+
+### Key property
+
+When work with list you need to specify a key in order to inform React changes or which components are present on the screen. The ```key``` property has not be specified into the component because React always expects it but you must pass as an attribute. _Remember that the key must be an unique identifier._
+
+```javascript
+return (
+    <div>
+      {this.state.characters.map(person => {
+        return <Person
+                  name={person.name} 
+                  job={person.job} 
+                  key={person.id}/>
+      })}
+    </div>
+);
+```

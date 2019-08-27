@@ -5,9 +5,9 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     characters: [
-      { name: 'Squall', job: 'Gunblade' },
-      { name: 'Rinoa', job: 'Ranger' },
-      { name: 'Zell', job: 'Monk' }
+      { id: 'asdad1', name: 'Squall', job: 'Gunblade' },
+      { id: 'qweqwe2', name: 'Rinoa', job: 'Ranger' },
+      { id: 'trytr3', name: 'Zell', job: 'Monk' }
     ],
     showPersons: true
   };
@@ -15,35 +15,45 @@ class App extends Component {
   switchJobHandler = () => {
     this.setState({
       characters: [
-        { name: this.state.characters[0].name, job: 'Samurai' },
-        { name: this.state.characters[1].name, job: 'Witch' },
-        { name: this.state.characters[2].name, job: 'Duelist' }
+        { id: this.state.characters[0].id, name: this.state.characters[0].name, job: 'Samurai' },
+        { id: this.state.characters[1].id, name: this.state.characters[1].name, job: 'Witch' },
+        { id: this.state.characters[2].id, name: this.state.characters[2].name, job: 'Duelist' }
       ]
     });
   };
 
-  inputJobHandler = (event) => {
+  inputJobHandler = (event, id) => {
+    const personIndex = this.state.characters.findIndex(p => {
+      return p.id === id;
+    });
+
+    let persons = [...this.state.characters];
+    persons[personIndex].job = event.target.value;
+
     this.setState({
-      characters: [
-        this.state.characters[0],
-        { name: this.state.characters[1].name, job: event.target.value },
-        this.state.characters[2]
-      ]
+      characters: persons
     });
   }
 
   changeNamesHandler = (...newNames) => {
     this.setState({
       characters: [
-        { name: newNames[0], job: this.state.characters[0].job },
-        { name: newNames[1], job: this.state.characters[1].job },
-        { name: newNames[2], job: this.state.characters[2].job }
+        { id: this.state.characters[0].id, name: newNames[0], job: this.state.characters[0].job },
+        { id: this.state.characters[1].id, name: newNames[1], job: this.state.characters[1].job },
+        { id: this.state.characters[2].id, name: newNames[2], job: this.state.characters[2].job }
       ]
     });
   }
 
   togglePersonsHandler = () => {
     this.setState({showPersons: !this.state.showPersons});
+  }
+
+  deletePersonHandler = (personIndex) => {
+    //const persons = this.state.characters; --> With this way you're creating a pointer to the same array and mutating after, this is not a good practice
+    const persons = [...this.state.characters];
+    persons.splice(personIndex, 1);
+    this.setState({characters: persons});
   }
 
   render() {
@@ -61,8 +71,13 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.characters.map(person => {
-            return <Person name={person.name} job={person.job} />
+          {this.state.characters.map((person, index) => {
+            return <Person 
+                      click={() => this.deletePersonHandler(index)}
+                      change={event => this.inputJobHandler(event, person.id)}
+                      name={person.name} 
+                      job={person.job} 
+                      key={person.id} />
           })}
         </div>
       );
