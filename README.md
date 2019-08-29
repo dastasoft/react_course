@@ -301,54 +301,6 @@ Here are three important things:
 
 You can see a complete list of Reac supported events [here](https://reactjs.org/docs/events.html#supported-events).
 
-### Styling components
-
-For apply style to our components the common pattern is create a separate ```.css``` file in the same folder of the component with the same name.
-
-Inside of our ```Person.css``` we will wrap everything with the component's name in order to prevent errors _Even if the css file is in the component's folder webpack adds the style in the ```index.html``` head, so **it has global access.**_
-
-```css
-.Person {
-    width: 60%;
-    margin: 16px auto;
-    border: 1px solid #eee;
-    border-radius: 2%;
-    box-shadow: 0 2px 3px #ccc;
-    padding: 16px;
-    text-align: center;
-}
-```
-
-On the ```.js``` file of the component we must import it and set the class
-
-```javascript
-import './Person.css';
-
-<div className="Person">
-<!-- ... --->
-</div>
-```
-
-_When Webpack add your css into the header of main HTML will be prefixing the css in order to work in all browsers._
-
-There's also inline style. 
-
-```javascript
-const style = {
-    backgroundColor: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer'
-};
-```
-
-_Remember is a JavaScript object not a CSS, for that reason ```camelCase``` instead of dashes._
-
-The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object. 
-
-A major downside of inline styles is some powerfull tools present in CSS you can't use it in this way.
-
 ## Render conditional content
 
 If you want render content in some scenarios you can wrap the code in JSX with {} and add a simple statement _If/else blocks does not work here_
@@ -421,4 +373,136 @@ return (
       })}
     </div>
 );
+```
+
+## Styling
+
+For apply style to our components the common pattern is create a separate ```.css``` file in the same folder of the component with the same name.
+
+Inside of our ```Person.css``` we will wrap everything with the component's name in order to prevent errors _Even if the css file is in the component's folder webpack adds the style in the ```index.html``` head, so **it has global access.**_
+
+```css
+.Person {
+    width: 60%;
+    margin: 16px auto;
+    border: 1px solid #eee;
+    border-radius: 2%;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+    text-align: center;
+}
+```
+
+On the ```.js``` file of the component we must import it and set the class
+
+```javascript
+import './Person.css';
+
+<div className="Person">
+<!-- ... --->
+</div>
+```
+
+_When Webpack add your css into the header of main HTML will be prefixing the css in order to work in all browsers._
+
+There's also inline style. 
+
+```javascript
+const style = {
+    backgroundColor: 'white',
+    font: 'inherit',
+    border: '1px solid blue',
+    padding: '8px',
+    cursor: 'pointer'
+};
+```
+
+_Remember is a JavaScript object not a CSS, for that reason ```camelCase``` instead of dashes._
+
+The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object. 
+
+A major downside of inline styles is some powerfull tools present in CSS, like pseudo selectors, you can't use it in this way.
+
+### Fixing in line style
+
+As I say before does not support some features like pseudo selectors, for example ```hover```
+
+The real problem is, if you in the CSS of you component defines:
+
+```css
+button:hover {
+    color: black
+}
+```
+
+This will affect every button on your app because remember, it's scope globally.
+
+In order to use pseudo selector and other features in in line style, which is scoped only to the element who uses it, you must install a third party package:
+
+```sh
+npm install --save radium
+```
+
+For use ```Radium``` in your component besides of importing it, you must wrap your export:
+
+```javascript
+import Radium from 'radium'
+
+export default Radium(App);
+```
+
+With that now we can use Radium features like the pseudo selectors in inline style, for example, the hover:
+
+```javascript
+const style = {
+  backgroundColor: 'red',
+  color: 'white',
+  font: 'inherit',
+  border: '1px solid blue',
+  padding: '8px',
+  cursor: 'pointer',
+  margin: '0 5px auto',
+  ':hover': {
+    backgroundColor: 'salmon',
+    color: 'black'
+  }
+};
+
+style.backgroundColor = 'green';
+style[':hover'] = {
+  backgroundColor: 'lightgreen',
+  color: 'black'
+}
+```
+
+Remember the properties of a JavaScript object can be defined with strings too, normally used this way if contain invalid caracters (like de ```:```). Later on, when you want to manage that property, must be used with ```[]```.
+
+### Dynamically assign classes
+
+The ```className``` attribute search for a string of one or more classes to apply, for that one way to do it is:
+
+```javascript
+const classes = ['red', 'bold'].join(' '); // 'red bold' Valid CSS
+
+<p className={classes}>Test</p>
+```
+
+Fill the array in the statements you want, but in the end you must have a valid css.
+
+If you use in line style, it's a JavaScript object.
+
+```javascript
+const style = {
+  backgroundColor: 'red',
+  color: 'white',
+  font: 'inherit',
+  border: '1px solid blue',
+  padding: '8px',
+  cursor: 'pointer',
+  margin: '0 5px auto'
+};
+
+style.backgroundColor = 'green';
+
+<p style={style}>Test</p>
 ```
