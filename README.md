@@ -526,3 +526,39 @@ style.backgroundColor = 'green';
 
 <p style={style}>Test</p>
 ```
+
+## [CSS Modules](https://github.com/css-modules/css-modules)
+
+With CSS modules, you can write normal CSS code and make sure, that it only applies to a given component.
+
+In the newer versions of CRA (Create React App) CSS modules are already enabled, but in order to use it you must follow the naming convention ```[name].module.css```.
+
+Given the next css
+
+```css
+.App {
+  text-align: center;
+}
+```
+
+On your ```App.js```
+
+```javascript
+import classes from './App.module.css';
+
+<div className={classes.App}>
+```
+
+With this the class name will look like ```App__App__c7e```, the class has a unique name attached to this component. If you want to work with global classes you only need to add ```:global```
+
+```css
+:global .App {
+  text-align: center;
+}
+```
+
+```javascript
+import classes from './App.module.css';
+
+<div className="App">
+```

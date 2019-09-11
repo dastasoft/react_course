@@ -9,3 +9,33 @@
 .bold {
   font-weight: bold;
 }
+
+.buttons {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.App button {
+  border: 1px solid blue;
+  padding: 16px;
+  background-color: red;
+  font: inherit;
+  color: black;
+  cursor: pointer;
+}
+
+.App button:hover {
+  background-color: salmon;
+}
+
+.App button.Green {
+  background-color: green;
+  color: white;
+}
+
+.App button.Green:hover {
+  background-color: lightgreen;
+}

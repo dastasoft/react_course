@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -57,17 +57,8 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'red',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      margin: '0 5px auto'
-    };
-
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons) {
       persons = (
@@ -83,34 +74,31 @@ class App extends Component {
         </div>
       );
     } else {
-      style.backgroundColor = 'green';
+      btnClass = classes.Green;
     }
 
-    const classes = [];
+    const classesApplied = [];
     if (this.state.characters.length <= 2) {
-      classes.push('red');
+      classesApplied.push(classes.red);
 
       if (this.state.characters.length <= 1) {
-        classes.push('bold');
+        classesApplied.push(classes.bold);
       }
     }
 
     return (
-        <div className="App">
+        <div className={classes.App}>
           <h1>Hi, I'm a React App.</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          <div>
+          <p className={classesApplied.join(' ')}>This is really working!</p>
+          <div className={classes.buttons}>
             <button
-              key={1}
-              style={style} 
+              className={btnClass}
               onClick={this.switchJobHandler}>Switch Jobs</button>
             <button
-              key={2}
-              style={style}
+              className={btnClass}
               onClick={this.changeNamesHandler.bind(this, 'Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>
             <button
-              key={3}
-              style={style}
+              className={btnClass}
               onClick={this.togglePersonsHandler}>Toggle Characters</button>
           </div>
           {persons}
