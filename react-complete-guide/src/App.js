@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import Radium from 'radium';
 
 class App extends Component {
   state = {
@@ -65,11 +64,7 @@ class App extends Component {
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer',
-      margin: '0 5px auto',
-      ':hover': {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+      margin: '0 5px auto'
     };
 
     let persons = null;
@@ -89,10 +84,6 @@ class App extends Component {
       );
     } else {
       style.backgroundColor = 'green';
-      style[':hover'] = {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
     }
 
     const classes = [];
@@ -105,50 +96,27 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App.</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
-        <div>
-          <button
-            key={1}
-            style={style} 
-            onClick={this.switchJobHandler}>Switch Jobs</button>
-          <button
-            key={2}
-            style={style}
-            onClick={this.changeNamesHandler.bind(this, 'Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>
-          {/*<button 
-            style={style}
-          onClick={() => this.changeNamesHandler('Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>*/}
-          <button
-            key={3}
-            style={style}
-            onClick={this.togglePersonsHandler}>Toggle Characters</button>
+        <div className="App">
+          <h1>Hi, I'm a React App.</h1>
+          <p className={classes.join(' ')}>This is really working!</p>
+          <div>
+            <button
+              key={1}
+              style={style} 
+              onClick={this.switchJobHandler}>Switch Jobs</button>
+            <button
+              key={2}
+              style={style}
+              onClick={this.changeNamesHandler.bind(this, 'Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>
+            <button
+              key={3}
+              style={style}
+              onClick={this.togglePersonsHandler}>Toggle Characters</button>
+          </div>
+          {persons}
         </div>
-
-        {/*
-          this.state.showPersons ?
-            <div>
-              <Person 
-                name={this.state.characters[0].name} 
-                job={this.state.characters[0].job} 
-                click={this.switchJobHandler} >Skills: Summumm</Person>
-              <Person 
-                name={this.state.characters[1].name} 
-                job={this.state.characters[1].job} 
-                inputJob={this.inputJobHandler} />
-              <Person 
-                name={this.state.characters[2].name} 
-                job={this.state.characters[2].job} />
-            </div> : null
-        */}
-
-        {persons}
-      </div>
     );
-
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi, I\'m a React App.'));
   }
 }
 
-export default Radium(App);
+export default App;

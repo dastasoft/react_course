@@ -477,6 +477,26 @@ style[':hover'] = {
 
 Remember the properties of a JavaScript object can be defined with strings too, normally used this way if contain invalid caracters (like de ```:```). Later on, when you want to manage that property, must be used with ```[]```.
 
+#### Using media queries
+
+Radium enables to use media queries in inline CSS but you need to wrap you application into a ```StyleRoot```.
+
+```javascript
+import Radium, { StyleRoot } from 'radium';
+
+return (
+    const style = {
+        '@media (min-width: 500px)': {
+            width: '450px'
+        }
+    };
+
+    <StyleRoot>
+    ...
+    </StyleRoot>
+);
+```
+
 ### Dynamically assign classes
 
 The ```className``` attribute search for a string of one or more classes to apply, for that one way to do it is:
