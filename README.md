@@ -562,3 +562,49 @@ import classes from './App.module.css';
 
 <div className="App">
 ```
+
+## [Error Boundaries](https://reactjs.org/docs/error-boundaries.html)
+
+When something went wrong you may want to display a custom HTML, for that you can wrap your code with a custom component which handles this. I'll call it ```ErrorBoundary.js``` but the name is up to you.
+
+```javascript
+import React, { Component } from 'react';
+
+class ErrorBoundary extends Component {
+    state: {
+        hasError: false,
+        errorMessage: ''
+    }
+
+    componentDidCatch = (error, info) => {
+        this.setState({hasError: true, errorMessage: error});
+    }
+    
+    render() {
+        if(this.state.hasError) {
+            return <h1>{this.state.errorMessage}</h1>;
+        } else {
+            return this.props.children;
+        }
+    }
+}
+```
+
+ErrorBoundary has the ```componentDidCatch``` function which will update the state, this function is provided by React Component. For the render part, only if there are error will be displayed, otherwhise the component will be displayed.
+
+On the component:
+
+```javascript
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+
+<ErrorBoundary key={person.id} > 
+    <Person 
+        click={() => this.deletePersonHandler(index)}
+        change={event => this.inputJobHandler(event, person.id)}
+        name={person.name} 
+        job={person.job}
+    />
+</ ErrorBoundary>
+```
+
+Note that the key now is on the ErrorBoundary component instead of the Person component, the wrapping component must have the key. ErrorBoundary here is what is called a high order component.
