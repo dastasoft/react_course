@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 import classes from './App.css';
-import Person from './Person/Person';
 
 class App extends Component {
   state = {
@@ -58,49 +59,24 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = '';
 
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.characters.map((person, index) => {
-            return <Person 
-                      click={() => this.deletePersonHandler(index)}
-                      change={event => this.inputJobHandler(event, person.id)}
-                      name={person.name} 
-                      job={person.job} 
-                      key={person.id} />
-          })}
-        </div>
-      );
-    } else {
-      btnClass = classes.Green;
-    }
-
-    const classesApplied = [];
-    if (this.state.characters.length <= 2) {
-      classesApplied.push(classes.red);
-
-      if (this.state.characters.length <= 1) {
-        classesApplied.push(classes.bold);
-      }
+      persons = <Persons 
+            persons={this.state.characters}
+            click={this.deletePersonHandler}
+            change={this.inputJobHandler}
+          />;
     }
 
     return (
         <div className={classes.App}>
-          <h1>Hi, I'm a React App.</h1>
-          <p className={classesApplied.join(' ')}>This is really working!</p>
-          <div className={classes.buttons}>
-            <button
-              className={btnClass}
-              onClick={this.switchJobHandler}>Switch Jobs</button>
-            <button
-              className={btnClass}
-              onClick={this.changeNamesHandler.bind(this, 'Leon', 'Ultimecia', 'Chicken Wuss')}>Change Names</button>
-            <button
-              className={btnClass}
-              onClick={this.togglePersonsHandler}>Toggle Characters</button>
-          </div>
+          <Cockpit 
+            characters={this.state.characters}
+            showPersons={this.state.showPersons}
+            switchJobHandler={this.switchJobHandler}
+            changeNamesHandler={this.changeNamesHandler}
+            togglePersonsHandler={this.togglePersonsHandler}
+          />
           {persons}
         </div>
     );
