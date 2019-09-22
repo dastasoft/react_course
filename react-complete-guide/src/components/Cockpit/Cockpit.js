@@ -2,7 +2,7 @@ import React from 'react';
 
 import classes from './Cockpit.css';
 
-const cockpit = ({ characters, showPersons, switchJobHandler, changeNamesHandler, togglePersonsHandler }) => {
+const cockpit = ({ title, characters, showPersons, switchJobHandler, changeNamesHandler, togglePersonsHandler }) => {
     const classesApplied = [];
     let btnClass = '';
 
@@ -18,7 +18,7 @@ const cockpit = ({ characters, showPersons, switchJobHandler, changeNamesHandler
 
     return (
         <div className={classes.Cockpit}>
-            <h1>Hi, I'm a React App.</h1>
+            <h1>{title}</h1>
             <p className={classesApplied.join(' ')}>This is really working!</p>
             <div className={classes.buttons}>
                 <button

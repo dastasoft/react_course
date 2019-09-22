@@ -1,4 +1,5 @@
 # React Course
+
 My progress on Udemy's React course from Maximilian Schwarzmüller
 
 ## [Create React App](https://github.com/facebook/create-react-app)
@@ -10,14 +11,13 @@ npm install create-react-app -g
 ```
 
 _(-g for globally instalation)_
-
 In order to create a new react project:
 
 ```sh
 create-react-app react-complete-guide
 ```
 
-_This will create a new react app inside of the react-complete-guide folder_
+This will create a new react app inside of the react-complete-guide folder.
 
 ### Starting the app
 
@@ -31,13 +31,13 @@ With the command display above the default browser is opened, if you want to spe
 BROWSER=firefox npm start
 ```
 
-The start command will raise a local server at ```localhost:3000``` by default. 
+The start command will raise a local server at ```localhost:3000``` by default.
 
 The local server have hot reaload enable, when you edit something it will change right at the moment.
 
 ### Project directory structure
 
-In the ```public``` folder we can find the ```index.html``` which is sent to browser for the SPA. 
+In the ```public``` folder we can find the ```index.html``` which is sent to browser for the SPA.
 
 ```html
 <div id="root"></div>
@@ -52,6 +52,32 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 _The usually workflow is only the main App goes to root and inside of that main App we will nest the other components which can have other component nested too._
+
+In order to structure components we should follow the next pattern
+
+```sh
+.
+├── App.js
+├── App.test.js
+├── index.js
+└── src
+└── components
+├── myComponent1
+│├── myComponent1.js
+│├── myComponent1.js
+│├── myComponent1.test.js
+│└── index.js
+├── myComponent2
+│├── myComponent2.js
+│├── myComponent2.css
+│├── myComponent2.test.js
+│└── index.js
+└── myComponent3
+├── myComponent3.js
+├── myComponent3.css
+├── myComponent3.test.js
+└── index.js
+```
 
 **_The ```test.js``` will get covered later on this document_**
 
@@ -113,6 +139,10 @@ export default person;
 
 _Remember we import React because we are using JSX and this behind the scenes is translate with ```React.createlement```_
 
+Functional components does not have access to ```Lifecycle Hooks``` and the access to the state is only from React v16.8+ with the inclusion of Hooks with ```useState()```.
+
+The access to the props is done by ```props.someProperty```.
+
 ### Class-base Components
 
 If your components need more functionality, like keeping state, use class-base components instead.
@@ -136,6 +166,15 @@ class App extends Component {
 export default App;
 ```
 
+Class-vased components has access to the state and lifecycle hooks in any version of React.
+
+The access to the state and props is done with ```this``` keyword:
+
+```javascript
+this.state.someValue
+this.props.someProperty
+```
+
 ### Import Component
 
 If we want to use the ```Person``` component into the ```App``` component we need to import the component and use it as a HTML tag
@@ -149,7 +188,6 @@ import Person from './Person/Person';
 - Is not necessary to define the extension .js this will be added automatically in build time for js files.
 - Use the first letter as a capital letter in order to indicate this is a custom tag.
 - In this example ```Person``` component does not have any nested components we can self close the tag.
-
 
 ### Passing Properties
 
@@ -211,10 +249,10 @@ The ```props``` can contain function also no only properties
 // ...
 </p>
 
-<Person 
-    name={this.state.characters[0].name} 
-    job={this.state.characters[0].job} 
-    click={this.switchJobHandler} 
+<Person
+    name={this.state.characters[0].name}
+    job={this.state.characters[0].job}
+    click={this.switchJobHandler}
 />
 ```
 
@@ -279,7 +317,6 @@ this.setState({
 
 _Keep in mind any changes to props and/or state trigger React to re-render your components an ppotentially update the DOPM in the browser._
 
-
 ### Event Listeners
 
 Let's put an example with the ```onclick``` event.
@@ -295,6 +332,7 @@ switchJobHandler = () => {
 ```
 
 Here are three important things:
+
 - The function is declarated with ES6 syntax because it's inside of a class and if you do a normal function declaration, later on you will face problems with ```this``` keyword. (Normal functions create a new this scope for themselves, arrow functions instead shares the scope of this with the parent.).
 - The onclick event in JSX is ```camelCase```. Remember **this is not HTML**.
 - The function is written without () because we don't want to call it when the UI is rendered, for that we only pass the function and when onclick is triggered the call is done.
@@ -307,7 +345,7 @@ If you want render content in some scenarios you can wrap the code in JSX with {
 
 ```jsx
 {
-    this.state.showPersons ? 
+    this.state.showPersons ?
         <div>
             <Person />
             <Person />
@@ -349,7 +387,7 @@ return (
     <div>
       {this.state.characters.map(person => {
         return <Person
-                  name={person.name} 
+                  name={person.name}
                   job={person.job} />
       })}
     </div>
@@ -367,8 +405,8 @@ return (
     <div>
       {this.state.characters.map(person => {
         return <Person
-                  name={person.name} 
-                  job={person.job} 
+                  name={person.name}
+                  job={person.job}
                   key={person.id}/>
       })}
     </div>
@@ -405,7 +443,7 @@ import './Person.css';
 
 _When Webpack add your css into the header of main HTML will be prefixing the css in order to work in all browsers._
 
-There's also inline style. 
+There's also inline style.
 
 ```javascript
 const style = {
@@ -419,7 +457,7 @@ const style = {
 
 _Remember is a JavaScript object not a CSS, for that reason ```camelCase``` instead of dashes._
 
-The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object. 
+The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object.
 
 A major downside of inline styles is some powerfull tools present in CSS, like pseudo selectors, you can't use it in this way.
 
@@ -579,7 +617,7 @@ class ErrorBoundary extends Component {
     componentDidCatch = (error, info) => {
         this.setState({hasError: true, errorMessage: error});
     }
-    
+
     render() {
         if(this.state.hasError) {
             return <h1>{this.state.errorMessage}</h1>;
@@ -597,14 +635,16 @@ On the component:
 ```javascript
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
-<ErrorBoundary key={person.id} > 
-    <Person 
+<ErrorBoundary key={person.id} >
+    <Person
         click={() => this.deletePersonHandler(index)}
         change={event => this.inputJobHandler(event, person.id)}
-        name={person.name} 
+        name={person.name}
         job={person.job}
     />
 </ ErrorBoundary>
 ```
 
 Note that the key now is on the ErrorBoundary component instead of the Person component, the wrapping component must have the key. ErrorBoundary here is what is called a high order component.
+
+## Component Lifecycle
