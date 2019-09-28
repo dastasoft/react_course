@@ -648,3 +648,22 @@ import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 Note that the key now is on the ErrorBoundary component instead of the Person component, the wrapping component must have the key. ErrorBoundary here is what is called a high order component.
 
 ## Component Lifecycle
+
+Class based component has access to the lifecycle methods.
+
+### Creation
+
+- ```constructor(props)``` Not really a React method because is a default ES6 class feature. Setups the state.
+- ```getDerivedStateFromProps(props, state)``` Sync state.
+- ```render()``` Prepare and structure your JSX code.
+- Render child components. When all child components pass the lifecycle and render, the creation lifecycle is finished.
+- ```componentDidMount()``` Cause side-effects.
+
+### Update
+
+- ```getDerivedStateFromProps(props, state)``` Sync state to props.
+- ```shouldComponentUpdate(nextProps, nextState)``` Decide whether to continue or not.
+- ```render()``` Prepare and structure your JSX code.
+- Update child component props. Every child component who recives updates to the props will do the update lifecycle.
+- ```getSnapshotBeforeUpdate(prevProps, prevState)``` Last-minute DOM operations.
+- ```componentDidUpdate()``` Cause side-effects.
