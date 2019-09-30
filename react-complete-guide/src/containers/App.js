@@ -4,6 +4,11 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import classes from './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
+
   state = {
     characters: [
       { id: 'asdad1', name: 'Squall', job: 'Gunblade' },
@@ -12,6 +17,28 @@ class App extends Component {
     ],
     showPersons: true
   };
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  /*componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }*/
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
+  }
 
   switchJobHandler = () => {
     this.setState({
@@ -47,39 +74,40 @@ class App extends Component {
   }
 
   togglePersonsHandler = () => {
-    this.setState({showPersons: !this.state.showPersons});
+    this.setState({ showPersons: !this.state.showPersons });
   }
 
   deletePersonHandler = (personIndex) => {
     //const persons = this.state.characters; --> With this way you're creating a pointer to the same array and mutating after, this is not a good practice
     const persons = [...this.state.characters];
     persons.splice(personIndex, 1);
-    this.setState({characters: persons});
+    this.setState({ characters: persons });
   }
 
   render() {
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
-      persons = <Persons 
-            persons={this.state.characters}
-            click={this.deletePersonHandler}
-            change={this.inputJobHandler}
-          />;
+      persons = <Persons
+        persons={this.state.characters}
+        click={this.deletePersonHandler}
+        change={this.inputJobHandler}
+      />;
     }
 
     return (
-        <div className={classes.App}>
-          <Cockpit
-            title={this.props.appTitle}
-            characters={this.state.characters}
-            showPersons={this.state.showPersons}
-            switchJobHandler={this.switchJobHandler}
-            changeNamesHandler={this.changeNamesHandler}
-            togglePersonsHandler={this.togglePersonsHandler}
-          />
-          {persons}
-        </div>
+      <div className={classes.App}>
+        <Cockpit
+          title={this.props.appTitle}
+          characters={this.state.characters}
+          showPersons={this.state.showPersons}
+          switchJobHandler={this.switchJobHandler}
+          changeNamesHandler={this.changeNamesHandler}
+          togglePersonsHandler={this.togglePersonsHandler}
+        />
+        {persons}
+      </div>
     );
   }
 }

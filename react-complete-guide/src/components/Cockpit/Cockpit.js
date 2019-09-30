@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classes from './Cockpit.css';
 
 const cockpit = ({ title, characters, showPersons, switchJobHandler, changeNamesHandler, togglePersonsHandler }) => {
+    useEffect(() => {
+        console.log('[Cockpit.js useEffect]');
+        return () => {
+            console.log('[Cockpit.js] cleanup work in useEffect');
+        };
+    }, []);
+    
     const classesApplied = [];
     let btnClass = '';
 
