@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import classes from './Cockpit.css';
 
-const cockpit = ({ title, characters, showPersons, switchJobHandler, changeNamesHandler, togglePersonsHandler }) => {
+const cockpit = ({ title, charactersLength, showPersons, switchJobHandler, changeNamesHandler, togglePersonsHandler }) => {
     useEffect(() => {
         console.log('[Cockpit.js useEffect]');
         return () => {
@@ -15,10 +15,10 @@ const cockpit = ({ title, characters, showPersons, switchJobHandler, changeNames
 
     if (!showPersons)  btnClass = classes.Green;
 
-    if (characters.length <= 2) {
+    if (charactersLength <= 2) {
         classesApplied.push(classes.red);
 
-        if (characters.length <= 1) {
+        if (charactersLength <= 1) {
             classesApplied.push(classes.bold);
         }
     }

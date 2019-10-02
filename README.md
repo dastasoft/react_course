@@ -710,3 +710,50 @@ useEffect(() => {
 You can use as many `useEffect` as you want.
 
 ## Lifecycle optimization
+
+In order to optimize our application one thing we can do is define when the components should update or not.
+
+Given a scenario where you update a father component the child component will get through the entire lifecycle we learn above. Event if the state/props of the child remain with the same values, it will get rerender.
+
+For avoid this, we will use the lifecycle hook `shouldComponentUpdate`.
+
+```javascript
+shouldComponentUpdate(nextProps, nextState) {
+  return nextProps.persons !== this.props.persons;
+}
+```
+
+In shouldComponentUpdate we must return true/false in order to inform if the component needs to be updated and rerendered. In this case, if the prop persons (which is an array) it's the same, we don't want to waste resources rerendering this component.
+
+### shouldComponentUpdate on functional components
+
+For achieve the same behaviour of the shouldComponentUpdate in functional components we can use React.memo(), a high order component.
+
+```javascript
+const Card = ({ title, description }) => {
+  return (
+    <div>
+      <div>Title: {title}</div>
+      <div>Description: {description}</div>
+    </div>
+  );
+}
+
+export const MemoizedCard = React.memo(Card);
+```
+
+The component ```Card``` only will get update and rerenderized if ```title``` and/or ```description```changes.
+
+With ```React.memo``` React creates an snapshot of the props and objects and will compare it in the next cycles.
+
+Some useful escenarios for use React.memo:
+
+- **Pure functional components** Your component is functional and given the same props, always renders the same output. This component maybe is located inside on another component and gets rerender all the time by the changes on the parent.
+- **Renders often**
+- **Rerenders with the same props**
+
+Some general rule to avoid the use of React.memo:
+
+_Don't use memoization if you can't quantify the performance gains._ First check with profiling and get 100% sure you're getting benefits and the functionally remains correct.
+
+### Pure Components

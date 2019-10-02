@@ -100,7 +100,7 @@ class App extends Component {
       <div className={classes.App}>
         <Cockpit
           title={this.props.appTitle}
-          characters={this.state.characters}
+          charactersLength={this.state.characters.length}
           showPersons={this.state.showPersons}
           switchJobHandler={this.switchJobHandler}
           changeNamesHandler={this.changeNamesHandler}
