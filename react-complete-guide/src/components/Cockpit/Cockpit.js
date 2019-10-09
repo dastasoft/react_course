@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import WithClass from '../../hoc/WithClass';
 
 import classes from './Cockpit.css';
 
@@ -24,7 +25,7 @@ const cockpit = ({ title, charactersLength, showPersons, switchJobHandler, chang
     }
 
     return (
-        <div className={classes.Cockpit}>
+        <WithClass className={classes.Cockpit}>
             <h1>{title}</h1>
             <p className={classesApplied.join(' ')}>This is really working!</p>
             <div className={classes.buttons}>
@@ -38,7 +39,7 @@ const cockpit = ({ title, charactersLength, showPersons, switchJobHandler, chang
                     className={btnClass}
                     onClick={togglePersonsHandler}>Toggle Characters</button>
             </div>
-        </div>
+        </WithClass>
     );
 };
 

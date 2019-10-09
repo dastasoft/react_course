@@ -737,14 +737,14 @@ const Card = ({ title, description }) => {
       <div>Description: {description}</div>
     </div>
   );
-}
+};
 
 export const MemoizedCard = React.memo(Card);
 ```
 
-The component ```Card``` only will get update and rerenderized if ```title``` and/or ```description```changes.
+The component `Card` only will get update and rerenderized if `title` and/or `description`changes.
 
-With ```React.memo``` React creates an snapshot of the props and objects and will compare it in the next cycles.
+With `React.memo` React creates an snapshot of the props and objects and will compare it in the next cycles.
 
 Some useful escenarios for use React.memo:
 
@@ -757,3 +757,86 @@ Some general rule to avoid the use of React.memo:
 _Don't use memoization if you can't quantify the performance gains._ First check with profiling and get 100% sure you're getting benefits and the functionally remains correct.
 
 ### Pure Components
+
+Extending you class based component with `PureComponent` is useful when you want to compare all the props of the component. PureComponent has built-in a shouldComponentUpdate comparing all props.
+
+## Updating the DOM
+
+React uses `Virtual DOM` behind the scenes. Let's see how this works:
+
+- `shouldComponentUpdate` allows or deny the re-render.
+- if step above is true, `render` (or it's equivalent from a function base component) is called.
+  - In fact `render` does not render nothing at all, it's just the recommendation for the view we make.
+- The `Virtual DOM` enters in action here, Virtual DOM is a Javascript representation of the original DOM, faster than the "real" DOM.
+- The `old virtual DOM` is compared with the "proposed" `re-rendered virtual DOM` from the render method.
+- If there is any difference... **only the things that are changed will be changed**, in this step the "real" DOM is in fact, updated.
+
+## [Higher-Order Components](https://reactjs.org/docs/higher-order-components.html)
+
+A Higher-Order Component or HOC is a function that takes a component and return a new (and maybe) enhanced component. They are a pattern for reusing components logic.
+
+You can create and use HOCs in two ways:
+
+- Functional component
+
+```javascript
+const WithClass = props => (
+    <div className={props.className}>
+        {props.children}
+    </div>
+
+// Usage
+return (
+  <WithClass className={classes.App}>
+    <p>Hello there</p>
+  </WithClass>
+);
+```
+
+- Function HOC
+
+```javascript
+const withClass = (WrappedComponent, className) => {
+  return props => (
+    <div className={className}>
+      <WrappedComponent {...props} />
+    </div>
+  );
+};
+
+//Usage
+export default withClass(App, classes.App);
+```
+
+_Take special attention which attributes are used with capital letters._
+
+One useful HOC is `Fragment`, every return/render in a component must return a single child element, if you don't want to wrap everything on a unnecesary `<div>` you can use the HOC `Fragment`.
+
+```javascript
+return (
+  <React.Fragment>
+    <p>Hello there</p>
+    <p>I want to save one div on the DOM</p>
+  </React.Fragment>
+);
+```
+
+## PropTypes
+
+PropTypes are used to typecheck the props of a component and send a warning if something is different from the setted type.
+
+```javascript
+import PropTypes from 'prop-types';
+
+Person.propTypes = {
+  name: PropTypes.string,
+  click: PropTypes.func,
+  job: PropTypes.string,
+  children: PropTypes.any,
+  change: PropTypes.fun
+};
+```
+
+## Refs
+
+## Context

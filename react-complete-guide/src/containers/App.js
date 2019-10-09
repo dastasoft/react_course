@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../hoc/WithClass';
 import classes from './App.css';
 
 class App extends Component {
@@ -97,7 +98,7 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <WithClass className={classes.App}>
         <Cockpit
           title={this.props.appTitle}
           charactersLength={this.state.characters.length}
@@ -107,7 +108,7 @@ class App extends Component {
           togglePersonsHandler={this.togglePersonsHandler}
         />
         {persons}
-      </div>
+      </WithClass>
     );
   }
 }
