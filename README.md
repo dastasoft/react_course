@@ -826,7 +826,7 @@ return (
 PropTypes are used to typecheck the props of a component and send a warning if something is different from the setted type.
 
 ```javascript
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 Person.propTypes = {
   name: PropTypes.string,
@@ -837,6 +837,92 @@ Person.propTypes = {
 };
 ```
 
-## Refs
+## [Refs](https://reactjs.org/docs/refs-and-the-dom.html)
+
+In React the normal behaviour is use props from parent to children for interaction. When you need to modify the child element, sending modified props to the children and re-render it it's the way.
+
+With Refs you can skip the normal behaviour and interact directly with the child component, something like `document.getElementById`.
 
 ## Context
+
+When you need to pass props from component A to D and don't want to pass it through B and C you can use `Context.Provider` on A and `Context.Consumer` on D without adding anything on B and C.
+
+### Context creation
+
+```javascript
+import React, { createContext } from "react";
+
+const authContext = createContext({
+  authenticated: false,
+  login: () => {}
+});
+
+export default authContext;
+```
+
+### Context provider
+
+```javascript
+import AuthContext from '../context/authContext';
+
+<AuthContext.Provider value={{
+  authenticated: false,
+  login: () => {}
+}}>
+{// Every child here will get access to the context}
+</AuthContext.Provider>
+```
+
+### Context consumer
+
+```javascript
+import AuthContext from "../../context/authContext";
+
+<AuthContext.Consumer>
+  {context =>
+    context.authenticated ? (
+      <p>Authenticated!</p>
+    ) : (
+      <button onClick={context.login}>Login</button>
+    )
+  }
+</AuthContext.Consumer>;
+```
+
+### contextType
+
+In class based components and from React 16.6 you can use a more convinient way of consuming the context.
+
+```javascript
+import AuthContext from "../../context/authContext";
+
+static contextType = AuthContext;
+
+{this.context.authenticated ? (
+      <p>Authenticated!</p>
+    ) : (
+      <button onClick={this.context.login}>Login</button>
+    )
+  }
+```
+
+contextType will link behind the scenes the context provided by AuthContext and will be accesible like a normal prop of the class, it's a shorten way of consuming context and also you can use it anywhere on your class not only on the Consumer wrapper.
+
+### useContext
+
+In function based component we can't use contextType but we have React hooks. At the end, useContext hook works in the same way that contextType.
+
+```javascript
+import React, { useContext } from "react";
+import AuthContext from "../../context/authContext";
+
+const authContext = useContext(AuthContext);
+
+{
+  authContext.authenticated ? (
+    <p>Authenticated!</p>
+  ) : (
+    <button onClick={authContext.login}>Login</button>
+  );
+}
+```
