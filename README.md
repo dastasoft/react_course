@@ -926,3 +926,9 @@ const authContext = useContext(AuthContext);
   );
 }
 ```
+
+## Planing a React App
+
+1. Component Tree / Component Structure
+2. Application Sate (Data)
+3. Components vs Containers
