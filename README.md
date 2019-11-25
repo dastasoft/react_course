@@ -932,3 +932,12 @@ const authContext = useContext(AuthContext);
 1. Component Tree / Component Structure
 2. Application Sate (Data)
 3. Components vs Containers
+
+## HTTP / AJAX
+
+In a SPA tipically the comunication with the server will be through sending/recieving JSON Data instead of new HTML pages.
+
+In order to perform HTTP request we can use:
+
+- `XMLHttpRequest` built-in Javascript, construct your own AJAX request, send to specific URL and handle the response data.
+- [axios](https://github.com/axios/axios) third party Javascript library, can be used in any Javascript code, is not related to React.
