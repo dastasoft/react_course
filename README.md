@@ -48,7 +48,7 @@ _Remember that the div with the root id is where all the components are rendered
 In the `src` folder goes the logic and style of the app. Inside of `index.js` you can find the _magic_ which links the root id division with the components:
 
 ```javascript
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 _The usually workflow is only the main App goes to root and inside of that main App we will nest the other components which can have other component nested too._
@@ -97,9 +97,9 @@ The above JSX is converted behind the scenes into this JS:
 
 ```javascript
 React.createElement(
-  "div",
-  { className: "App" },
-  React.createElement("h1", null, "Hi, I'm a React App.")
+  'div',
+  { className: 'App' },
+  React.createElement('h1', null, "Hi, I'm a React App.")
 );
 ```
 
@@ -130,7 +130,7 @@ Because they're lightweight, writing these simple components as functional compo
 An example of functional component, inside of our `src` folder we create a `Person` folder which contains a `Person.js` file.
 
 ```javascript
-import React from "react";
+import React from 'react';
 
 const person = () => {
   return <p>I'm a person!</p>;
@@ -152,8 +152,8 @@ If your components need more functionality, like keeping state, use class-base c
 One good example is the `App.js` already created
 
 ```javascript
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react';
+import './App.css';
 
 class App extends Component {
   render() {
@@ -182,7 +182,7 @@ this.props.someProperty;
 If we want to use the `Person` component into the `App` component we need to import the component and use it as a HTML tag
 
 ```javascript
-import Person from "./Person/Person";
+import Person from './Person/Person';
 
 <Person />;
 ```
@@ -271,7 +271,7 @@ Imagine the next function:
 ```javascript
 switchNameHandler = newName => {
   this.setState({
-    characters: [{ name: newName, job: "Samurai" }]
+    characters: [{ name: newName, job: 'Samurai' }]
   });
 };
 ```
@@ -279,13 +279,13 @@ switchNameHandler = newName => {
 In order to pass `newName` to the `swiitchNameHandler` we must bind it
 
 ```javascript
-<button onClick={this.switchNameHandler.bind(this, "Leon")}>Switch Name</button>
+<button onClick={this.switchNameHandler.bind(this, 'Leon')}>Switch Name</button>
 ```
 
 Or use an arrow function
 
 ```javascript
-<button onClick={() => this.switchNameHandler("Leon")}>Switch Name</button>
+<button onClick={() => this.switchNameHandler('Leon')}>Switch Name</button>
 ```
 
 _With the arrow function the `switchNameHandler` does not execute inmediatly instead, returns the execution when is call the onclick, **this way is more ineficient than bind option**._
@@ -312,9 +312,9 @@ For update the state, we must pass the entire object of the property we want to 
 ```javascript
 this.setState({
   characters: [
-    { name: "Squall", job: "Samurai" },
-    { name: "Rinoa", job: "Witch" },
-    { name: "Zell", job: "Duelist" }
+    { name: 'Squall', job: 'Samurai' },
+    { name: 'Rinoa', job: 'Witch' },
+    { name: 'Zell', job: 'Duelist' }
   ]
 });
 ```
@@ -331,7 +331,7 @@ On our class-base component we create:
 
 ```jsx
 switchJobHandler = () => {
-  console.log("Was clicked!");
+  console.log('Was clicked!');
 };
 
 <button onClick={this.switchJobHandler}>Switch Jobs</button>;
@@ -449,11 +449,11 @@ There's also inline style.
 
 ```javascript
 const style = {
-  backgroundColor: "white",
-  font: "inherit",
-  border: "1px solid blue",
-  padding: "8px",
-  cursor: "pointer"
+  backgroundColor: 'white',
+  font: 'inherit',
+  border: '1px solid blue',
+  padding: '8px',
+  cursor: 'pointer'
 };
 ```
 
@@ -486,7 +486,7 @@ npm install --save radium
 For use `Radium` in your component besides of importing it, you must wrap your export:
 
 ```javascript
-import Radium from "radium";
+import Radium from 'radium';
 
 export default Radium(App);
 ```
@@ -495,23 +495,23 @@ With that now we can use Radium features like the pseudo selectors in inline sty
 
 ```javascript
 const style = {
-  backgroundColor: "red",
-  color: "white",
-  font: "inherit",
-  border: "1px solid blue",
-  padding: "8px",
-  cursor: "pointer",
-  margin: "0 5px auto",
-  ":hover": {
-    backgroundColor: "salmon",
-    color: "black"
+  backgroundColor: 'red',
+  color: 'white',
+  font: 'inherit',
+  border: '1px solid blue',
+  padding: '8px',
+  cursor: 'pointer',
+  margin: '0 5px auto',
+  ':hover': {
+    backgroundColor: 'salmon',
+    color: 'black'
   }
 };
 
-style.backgroundColor = "green";
-style[":hover"] = {
-  backgroundColor: "lightgreen",
-  color: "black"
+style.backgroundColor = 'green';
+style[':hover'] = {
+  backgroundColor: 'lightgreen',
+  color: 'black'
 };
 ```
 
@@ -542,7 +542,7 @@ return (
 The `className` attribute search for a string of one or more classes to apply, for that one way to do it is:
 
 ```javascript
-const classes = ["red", "bold"].join(" "); // 'red bold' Valid CSS
+const classes = ['red', 'bold'].join(' '); // 'red bold' Valid CSS
 
 <p className={classes}>Test</p>;
 ```
@@ -553,16 +553,16 @@ If you use in line style, it's a JavaScript object.
 
 ```javascript
 const style = {
-  backgroundColor: "red",
-  color: "white",
-  font: "inherit",
-  border: "1px solid blue",
-  padding: "8px",
-  cursor: "pointer",
-  margin: "0 5px auto"
+  backgroundColor: 'red',
+  color: 'white',
+  font: 'inherit',
+  border: '1px solid blue',
+  padding: '8px',
+  cursor: 'pointer',
+  margin: '0 5px auto'
 };
 
-style.backgroundColor = "green";
+style.backgroundColor = 'green';
 
 <p style={style}>Test</p>;
 ```
@@ -608,12 +608,12 @@ import classes from './App.module.css';
 When something went wrong you may want to display a custom HTML, for that you can wrap your code with a custom component which handles this. I'll call it `ErrorBoundary.js` but the name is up to you.
 
 ```javascript
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class ErrorBoundary extends Component {
   state: {
     hasError: false,
-    errorMessage: ""
+    errorMessage: ''
   };
 
   componentDidCatch = (error, info) => {
@@ -635,7 +635,7 @@ ErrorBoundary has the `componentDidCatch` function which will update the state, 
 On the component:
 
 ```javascript
-import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 <ErrorBoundary key={person.id}>
   <Person
@@ -684,25 +684,25 @@ If `useEffect` has the functionallity of `componentDidMount` and `componentDidUp
 
 ```javascript
 useEffect(() => {
-  console.log("some stuff when characters creates/updates");
+  console.log('some stuff when characters creates/updates');
 }, [characters]);
 
 useEffect(() => {
-  console.log("some stuff when characters and jobs creates/updates");
+  console.log('some stuff when characters and jobs creates/updates');
 }, [characters, jobs]);
 
 useEffect(() => {
-  console.log("some stuff when application runs for the first time");
+  console.log('some stuff when application runs for the first time');
 }, []);
 
 useEffect(() => {
-  console.log("some stuff running every render cycle");
+  console.log('some stuff running every render cycle');
 });
 
 useEffect(() => {
-  console.log("some stuff when component did mount");
+  console.log('some stuff when component did mount');
   return () => {
-    console.log("some stuff when component did unmount");
+    console.log('some stuff when component did unmount');
   };
 }, []);
 ```
@@ -826,7 +826,7 @@ return (
 PropTypes are used to typecheck the props of a component and send a warning if something is different from the setted type.
 
 ```javascript
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 Person.propTypes = {
   name: PropTypes.string,
@@ -850,7 +850,7 @@ When you need to pass props from component A to D and don't want to pass it thro
 ### Context creation
 
 ```javascript
-import React, { createContext } from "react";
+import React, { createContext } from 'react';
 
 const authContext = createContext({
   authenticated: false,
@@ -876,7 +876,7 @@ import AuthContext from '../context/authContext';
 ### Context consumer
 
 ```javascript
-import AuthContext from "../../context/authContext";
+import AuthContext from '../../context/authContext';
 
 <AuthContext.Consumer>
   {context =>
@@ -913,8 +913,8 @@ contextType will link behind the scenes the context provided by AuthContext and 
 In function based component we can't use contextType but we have React hooks. At the end, useContext hook works in the same way that contextType.
 
 ```javascript
-import React, { useContext } from "react";
-import AuthContext from "../../context/authContext";
+import React, { useContext } from 'react';
+import AuthContext from '../../context/authContext';
 
 const authContext = useContext(AuthContext);
 
@@ -941,3 +941,110 @@ In order to perform HTTP request we can use:
 
 - `XMLHttpRequest` built-in Javascript, construct your own AJAX request, send to specific URL and handle the response data.
 - [axios](https://github.com/axios/axios) third party Javascript library, can be used in any Javascript code, is not related to React.
+
+### [axios](https://github.com/axios/axios)
+
+```javascript
+// Make a request for a user with a given ID
+axios
+  .get('/user?ID=12345')
+  .then(function(response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function(error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function() {
+    // always executed
+  });
+```
+
+```javascript
+// Performing a POST request
+axios
+  .post('/user', {
+    firstName: 'Fred',
+    lastName: 'Flintstone'
+  })
+  .then(function(response) {
+    console.log(response);
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+```
+
+Second parameter is an JS object that axios will convert to a JSON.
+
+#### Interceptors
+
+Configure global interceptors for logging and handle request/response globally.
+
+On the `index.js` place the interceptors:
+
+```javascript
+axios.interceptors.request.use(
+  request => {
+    console.log(request);
+    // Edit request config
+    return request;
+  },
+  error => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  response => {
+    console.log(response);
+    // Edit response config
+    return response;
+  },
+  error => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+```
+
+This automatically will catch the request and response events from `axios`.
+
+In case you want to delete interceptors at any given time:
+
+```javascript
+ const myInterceptor = axios.interceptors.request.use(function () {...});
+ axios.interceptors.request.eject(myInterceptor);
+```
+
+#### Default properties
+
+You can change default properties in order to specify a base url for all the axios events, put your own authorization token, etc.
+
+```javascript
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+axios.defaults.headers.commmon['Authorization'] = 'AUTH TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+```
+
+#### axios instances
+
+Create a `axios.js` file with:
+
+```javascript
+import axios from 'axios';
+
+const axiosInstance = axios.create({
+  baseURL: 'https://jsonplaceholder.typicode.com'
+});
+
+instance.defaults.headers.common['Authorization'] = 'ANOTHER AUTH TOKEN';
+
+// instance.interceptors.re...
+
+export default axiosInstance;
+```
+
+Importing `axiosInstance` will use other instance of the globally defined axios.
