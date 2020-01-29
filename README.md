@@ -1048,3 +1048,18 @@ export default axiosInstance;
 ```
 
 Importing `axiosInstance` will use other instance of the globally defined axios.
+
+## Routing
+
+React Router is the de-facto React routing library, it's built on top of React and not built-in React, so you need to install:
+
+```bash
+yarn add react-router-dom
+```
+
+React Router offers a way to write your code code so that it will show certain components of your app only if the route matches what you define.
+
+Routing in a SPA with React Router will have the expected behaviours of a normal web application:
+
+- URL may change when you navigate to a "different" screen
+- The navigation buttons in the browser will work as expected
