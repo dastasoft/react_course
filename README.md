@@ -1092,12 +1092,16 @@ You can use `Route` component anywhere on your project, react-router will check 
 <Route path="/" exact component={MyComponent} />
 ```
 
+*If you have multiple routes, it will be parsed top to bottom.*
+
 Following the example above:
 
 - `path` stands for if the URL *starts with* the given value.
 - `exact` is a boolean property which turns the starts with to *if the full URL is the same than the value in the path property*.
 - `render` will display the JSX content passed in.
 - `component` will render a component, the component must be imported first.
+
+#### Route component props
 
 The component rendered within `component` attribute will recieve the following additional props:
 
@@ -1131,6 +1135,16 @@ const MyChildComponent = props => {
 export default withRouter(MyChildComponent);
 ```
 
+#### Passing parameters
+
+You can define certain parameters in the path's route in order to tell rect-router there must be a dynamic value.
+
+```javascript
+<Route path="/posts/:id" exact component={MyComponent} />
+
+<Link to={`/posts/${id}`} />
+```
+
 ### Link
 
 Using an `<a>` to move around our web can work but that type of element will reload the page and that means all of our Javascript will be initialized again and a request will send to the server.
@@ -1142,11 +1156,13 @@ In order to use Link:
 ```javascript
 import { Link } from 'react-router-dom';
 
-<Link to="/">Home</Link>
+<Link to="/" exact>Home</Link>
 
 ```
 
 Internally react-router will generate an anchor element in the HTML but will prevent the default behaviour and handle the click by itself. The `to` attribute will redirect to the given value as `href` in an anchor element.
+
+The Link component also supports the `exact` attribute that have the same behaviour that in the Route component.
 
 The `Link` component can be declared as follows too:
 
@@ -1165,3 +1181,57 @@ The `Link` component can be declared as follows too:
 - `pathname` will have the same effect than `to` in the example above.
 - `hash` will be at the and of the URL and serves as a jump to that ID element.
 - `search` can introduce query params to the URL.
+
+#### Relative paths
+
+By default the pathname is an absolute path.
+
+```javascript
+<Link
+  to={{
+    pathname: 'new-post',
+    hash: '#submit',
+    search: '?quick-submit=true'
+  }}
+>
+  New Post
+</Link>
+```
+
+In the example above, is the same `/new-post` or `new-post`, the two will be appended to domain + path.
+
+In order to set a relative path you can do the following:
+
+```javascript
+<Link
+  to={{
+    pathname: props.match.url + '/new-post',
+    hash: '#submit',
+    search: '?quick-submit=true'
+  }}
+>
+  New Post
+</Link>
+```
+
+If the component is route aware, you can get the match property and set the pathname to the entire new relative URL.
+
+### NavLink
+
+A special version of the `<Link>` that will add styling attributes to the rendered element when it matches the current URL.
+
+By default automatically will be attach an `active` class name. If you want to define your custom active class:
+
+```javascript
+import { NavLink } from 'react-router-dom';
+
+<NavLink to="/" exact activeClassName="my-custom-active-class">Home</NavLink>
+```
+
+You can define your active in-line style too:
+
+```javascript
+import { NavLink } from 'react-router-dom';
+
+<NavLink to="/" exact activeStyle={{ color: 'black', textDecoration: 'underlined' }}>Home</NavLink>
+```
