@@ -1141,9 +1141,9 @@ You can define certain parameters in the path's route in order to tell rect-rout
 
 ```javascript
 <Route path="/posts/:id" exact component={MyComponent} />
-
-<Link to={`/posts/${id}`} />
 ```
+
+The name after the `:` will be sent through the `props.match.params`.
 
 ### Link
 
@@ -1181,6 +1181,19 @@ The `Link` component can be declared as follows too:
 - `pathname` will have the same effect than `to` in the example above.
 - `hash` will be at the and of the URL and serves as a jump to that ID element.
 - `search` can introduce query params to the URL.
+
+#### Retrieve parameters
+
+If you want to retrieve the `hash` parameter simply access to `props.location.hash`.
+
+For the `search` access to `props.location.search`, this will return a string containing ? and = too, use this snippet which allows you to easily extract the valuable information:
+
+```javascript
+const query = new URLSearchParams(this.props.location.search);
+for (let param of query.entries()) {
+  console.log(param);
+}
+```
 
 #### Relative paths
 
@@ -1234,4 +1247,18 @@ You can define your active in-line style too:
 import { NavLink } from 'react-router-dom';
 
 <NavLink to="/" exact activeStyle={{ color: 'black', textDecoration: 'underlined' }}>Home</NavLink>
+```
+
+### Switch
+
+The `Switch` component tells to the react-router to display only one of the given `Routes`. Besides Switch component, the Routes are still parsed top to bottom.
+
+```javascript
+import { Switch } from 'react-router-dom';
+
+<Switch>
+  <Route path="/" exact component={Posts} />
+  <Route path="/new-post" component={NewPost} />
+  <Route path="/posts/:id" exact component={FullPost} />
+</Switch>
 ```
