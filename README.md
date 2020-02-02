@@ -1063,3 +1063,105 @@ Routing in a SPA with React Router will have the expected behaviours of a normal
 
 - URL may change when you navigate to a "different" screen
 - The navigation buttons in the browser will work as expected
+
+To use a router, just make sure it is rendered at the root of your element hierarchy. Typically you'll wrap your top.level `<App>` element in a router, like this:
+
+```javascript
+import { BrowserRouter } from 'react-router-dom';
+
+<BrowserRouter>
+  <div className="App">
+    // Stuff here
+  </div>
+</BrowserRouter>
+```
+
+### BrowserRouter vs HashRouter
+
+At the core of every React Router application should be a router component. The main difference between the two is the way they store the URL and communicate with your web server.
+
+- `<BrowserRouter>` uses regular URL paths. These are generally *the best-looking URLs*, but they require your server to be configured correctly.
+- `<HashRouter>` stores the current location in *the hash portion of the URL*, so the URL looks something like `http://example.com/#/your/page`. Since the hash is never sent to the server, this mean that no special server configuration is needed.
+
+### Route
+
+You can use `Route` component anywhere on your project, react-router will check if the parameters given to the component if true and display the content.
+
+```javascript
+<Route path="/" exact render={() => <h1>Home</h1>} />
+<Route path="/" exact component={MyComponent} />
+```
+
+Following the example above:
+
+- `path` stands for if the URL *starts with* the given value.
+- `exact` is a boolean property which turns the starts with to *if the full URL is the same than the value in the path property*.
+- `render` will display the JSX content passed in.
+- `component` will render a component, the component must be imported first.
+
+The component rendered within `component` attribute will recieve the following additional props:
+
+- `history` This refers to the `history package`, which is one of the major dependencies of react-router. The history library lets you easily manage session history anywhere JavaScript runs. `history` abstract away the differences in various environments and provides a minimal API that lets you manage the history stack, navigate, and persist state between sessions.
+- `location` represents where the app is now, where you want it to go, or even where it was.
+- `match` contains information about how `<Route path>` matched the URL.
+- `staticContext`
+
+This props are only available for the first component passed in the `component` attribute, *child components will not recieve this props at least you pass it manually*.
+
+In order to pass the props to the child components, you can do it in two ways:
+
+- Passing props parent to child like you would do normally
+
+```javascript
+const MyComponent = props => (
+  <MyChildComponent location={props.location}>
+)
+```
+
+- Using HOC `withRouter` to turn the child component 'route aware'.
+
+```javascript
+import { withRouter } from 'react-router-dom';
+
+const MyChildComponent = props => {
+  console.log(props.location)
+  // Stuff here
+}
+
+export default withRouter(MyChildComponent);
+```
+
+### Link
+
+Using an `<a>` to move around our web can work but that type of element will reload the page and that means all of our Javascript will be initialized again and a request will send to the server.
+
+In React if a user is navigating through our web we want only to re-render and not to reload the entire web page, for that we will use a special component of the react-router, the `Link`.
+
+In order to use Link:
+
+```javascript
+import { Link } from 'react-router-dom';
+
+<Link to="/">Home</Link>
+
+```
+
+Internally react-router will generate an anchor element in the HTML but will prevent the default behaviour and handle the click by itself. The `to` attribute will redirect to the given value as `href` in an anchor element.
+
+The `Link` component can be declared as follows too:
+
+```javascript
+<Link
+  to={{
+    pathname: '/new-post',
+    hash: '#submit',
+    search: '?quick-submit=true'
+  }}
+>
+  New Post
+</Link>
+```
+
+- `pathname` will have the same effect than `to` in the example above.
+- `hash` will be at the and of the URL and serves as a jump to that ID element.
+- `search` can introduce query params to the URL.
