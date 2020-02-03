@@ -1249,6 +1249,20 @@ import { NavLink } from 'react-router-dom';
 <NavLink to="/" exact activeStyle={{ color: 'black', textDecoration: 'underlined' }}>Home</NavLink>
 ```
 
+#### Navigating Programmatically
+
+Instead of set a `Link` component with `to` attribute we can make navigation programmatically:
+
+```javascript
+const onClickHandler = id => {
+  props.history.push({ pathname: '/somewhere/' + id});
+}
+
+return (
+  <MyChildComponent onClick={() => onClickHandler(id)}>
+)
+```
+
 ### Switch
 
 The `Switch` component tells to the react-router to display only one of the given `Routes`. Besides Switch component, the Routes are still parsed top to bottom.
@@ -1262,3 +1276,29 @@ import { Switch } from 'react-router-dom';
   <Route path="/posts/:id" exact component={FullPost} />
 </Switch>
 ```
+
+### Redirect
+
+Render a `Redirect` component will navigate to a new location. The new location will override the current location in the history slack.
+
+```javascript
+import { Redirect } from 'react-router-dom';
+
+<Switch>
+  <Route path="/posts" component={Posts} />
+  <Redirect from="/" to="/posts" />
+</Switch>
+```
+
+*If `Redirect` is outside of `Switch`, `from` can't be specified.*
+
+You can achieve the same behaviour by duplicatting the Routes:
+
+```javascript
+<Switch>
+  <Route path="/posts" component={Posts} />
+  <Route path="/" component={Posts} />
+</Switch>
+```
+
+*This approach will not modify the URL.*
