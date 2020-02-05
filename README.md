@@ -1302,3 +1302,57 @@ You can achieve the same behaviour by duplicatting the Routes:
 ```
 
 *This approach will not modify the URL.*
+
+Another way to achieve redirection is using the `history` prop we saw above.
+
+```javascript
+this.props.history.push('/posts');
+```
+
+Using this approach you can use the *navigation back* to return to the previous screen, with `Redirect` you can't do it because is replacing the URL not pushing on the `history` stack.
+
+*If you want to achieve the exact same effect with `history` and `Redirect` use `replace()` instead of `push()`.*
+
+### Handling 404
+
+Previously we saw the `Redirect` component.
+
+```javascript
+<Redirect from="/" to="/posts" />
+```
+
+With the example above, any route that is unknown will be redirected to `/posts` but if we want to send the user to a *Not Found* page:
+
+```javascript
+<Route component={My404} />
+```
+
+Replacing the `Redirect` with a `Route` without path will handle all the routes that are unmatched in the list (remember that routes are parsed top to bottom) and send to the component.
+
+## Lazy Load
+
+On React v16.6 `lazy` load was introduced. In bigger applications you want to optimize as much as possible and one thing to do is loading components (specially the bigger ones) only when they are needed, that is a lazy load.
+
+`React.lazy` function lets you render a dynamic import as a regular component.
+
+```javascript
+import React, { Suspense } from 'react';
+
+const Post = React.lazy(() => import('./components/Post'));
+
+const MyComponent = () => {
+  return <Route path="/post" render={() => (
+    <Susppense fallback={<div>Loading...</div>}>
+      <Post />
+    </Suspense>
+  )}>
+}
+```
+
+Only when the user goes to `/post` all the code related to `Post` component will load.
+
+`React.lazy` takes a function that must call a dynamic `import()`. This must return a `Promise`which resolves to a module with a `default` export containing a React component.
+
+The component loaded in lazy should be inside a `Suspense` component which has a `fallback` props that accepts any React elements that will be displayed until the component is loaded.
+
+*You can wrap multiple lazy components with a single `Suspense` component.*
