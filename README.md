@@ -1145,6 +1145,18 @@ You can define certain parameters in the path's route in order to tell rect-rout
 
 The name after the `:` will be sent through the `props.match.params`.
 
+In order to define multiple parameters:
+
+```javascript
+<Route path="/posts/:id/:title" exact component={MyComponent} />
+```
+
+You can define `optional parameters` too with `?`:
+
+```javascript
+<Route path="/posts/:id?/:title?" exact component={MyComponent} />
+```
+
 ### Link
 
 Using an `<a>` to move around our web can work but that type of element will reload the page and that means all of our Javascript will be initialized again and a request will send to the server.
@@ -1328,6 +1340,32 @@ With the example above, any route that is unknown will be redirected to `/posts`
 ```
 
 Replacing the `Redirect` with a `Route` without path will handle all the routes that are unmatched in the list (remember that routes are parsed top to bottom) and send to the component.
+
+### Setting the base path
+
+If your app is served from a sub-directory on your server, you'll want to set this to the sub-directory.
+
+By default the `basename` property is `/`:
+
+```javascript
+<BrowserRouter basename="/">
+// Some stuff here
+</BrowserRouter>
+``` 
+
+For example if your app is on `example.com/my-app` you'll need this configuration:
+
+```javascript
+<BrowserRouter basename="/my-app">
+// Some stuff here
+</BrowserRouter>
+
+<Link to ="/posts" />
+```
+
+The `Link` will render an `<a href="/my-app/posts">`.
+
+*A properly formatted basename should have a leading slash, but no trailing slash.*
 
 ## Lazy Load
 

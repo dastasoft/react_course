@@ -1,0 +1,31 @@
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+nav a {
+  border: 1px solid palevioletred;
+  border-radius: 5px;
+  background-color: papayawhip;
+  text-decoration: none;
+  color: palevioletred;
+  padding: 8px;
+}
+
+nav a:hover {
+  background-color: palevioletred;
+  color: papayawhip;
+}
+
+nav a.active {
+  border: 1px solid teal;
+  background-color: teal;
+  color: black;
+}
+
+.not-found {
+  margin-top: 16px;
+  color: royalblue;
+  font-size: 48px;
+}
