@@ -1101,6 +1101,12 @@ Following the example above:
 - `render` will display the JSX content passed in.
 - `component` will render a component, the component must be imported first.
 
+Using `render` instead of `component` can be useful when you want to pass props into the component.
+
+```javascript
+<Route path="/" exact render={() => <MyComponent myProps={someProps} />} />
+```
+
 #### Route component props
 
 The component rendered within `component` attribute will recieve the following additional props:
@@ -1380,7 +1386,7 @@ const Post = React.lazy(() => import('./components/Post'));
 
 const MyComponent = () => {
   return <Route path="/post" render={() => (
-    <Susppense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
       <Post />
     </Suspense>
   )}>
