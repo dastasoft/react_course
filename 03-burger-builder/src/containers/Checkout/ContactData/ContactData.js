@@ -84,9 +84,10 @@ class ContactData extends Component {
                         { value: 'cheapest', displayValue: 'Cheapest' }
                     ]
                 },
-                value: ''
+                value: 'fastest'
             }
         },
+        formIsValid: false,
         loading: false
     };
 
@@ -121,16 +122,18 @@ class ContactData extends Component {
     checkValidity(value, rules) {
         let isValid = true;
 
-        if (rules.required && isValid) {
-            isValid = value.trim() !== '';
-        }
+        if (rules) {
+            if (rules.required && isValid) {
+                isValid = value.trim() !== '';
+            }
 
-        if (rules.minLength && isValid) {
-            isValid = value.length >= rules.minLength;
-        }
+            if (rules.minLength && isValid) {
+                isValid = value.length >= rules.minLength;
+            }
 
-        if (rules.maxLength && isValid) {
-            isValid = value.length <= rules.maxLength;
+            if (rules.maxLength && isValid) {
+                isValid = value.length <= rules.maxLength;
+            }
         }
 
         return isValid;
@@ -153,7 +156,16 @@ class ContactData extends Component {
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
 
-        this.setState({ orderForm: updatedOrderForm });
+        const formValidity = Array.from(Object.keys(updatedOrderForm)).every(
+            orderKey =>
+                updatedOrderForm[orderKey].valid === undefined ||
+                updatedOrderForm[orderKey].valid
+        );
+
+        this.setState({
+            orderForm: updatedOrderForm,
+            formIsValid: formValidity
+        });
     };
 
     render() {
@@ -182,7 +194,9 @@ class ContactData extends Component {
                         }
                     />
                 ))}
-                <Button btnType="Success">ORDER</Button>
+                <Button btnType="Success" disabled={!this.state.formIsValid}>
+                    ORDER
+                </Button>
             </form>
         );
 

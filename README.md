@@ -567,7 +567,7 @@ style.backgroundColor = 'green';
 <p style={style}>Test</p>;
 ```
 
-## [CSS Modules](https://github.com/css-modules/css-modules)
+### [CSS Modules](https://github.com/css-modules/css-modules)
 
 With CSS modules, you can write normal CSS code and make sure, that it only applies to a given component.
 
@@ -601,6 +601,16 @@ With this the class name will look like `App__App__c7e`, the class has a unique 
 import classes from './App.module.css';
 
 <div className="App">
+```
+
+### [Styled Components](https://styled-components.com/)
+
+Utilising tagged template literals (a recent addition to JavaScript) and the power of CSS, styled-components allows you to write actual CSS code to style your components.
+
+First of all, add to your project:
+
+```javascript
+yarn add styled-components
 ```
 
 ## [Error Boundaries](https://reactjs.org/docs/error-boundaries.html)
