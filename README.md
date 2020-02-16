@@ -2,6 +2,78 @@
 
 My progress on Udemy's React course from Maximilian Schwarzmüller
 
+- [React Course](#react-course)
+  - [Create React App](#create-react-app)
+    - [Starting the app](#starting-the-app)
+    - [Project directory structure](#project-directory-structure)
+  - [JSX](#jsx)
+    - [Dynamic Content](#dynamic-content)
+  - [Components](#components)
+    - [Functional Components](#functional-components)
+    - [Class-base Components](#class-base-components)
+    - [Import Component](#import-component)
+    - [Passing Properties](#passing-properties)
+    - [Passing functions as properties](#passing-functions-as-properties)
+    - [State propertie](#state-propertie)
+    - [Event Listeners](#event-listeners)
+  - [Render conditional content](#render-conditional-content)
+  - [Render List](#render-list)
+    - [Key property](#key-property)
+  - [Styling](#styling)
+    - [Fixing in line style](#fixing-in-line-style)
+      - [Using media queries](#using-media-queries)
+    - [Dynamically assign classes](#dynamically-assign-classes)
+    - [CSS Modules](#css-modules)
+    - [Styled Components](#styled-components)
+      - [Dynamic Styles](#dynamic-styles)
+  - [Error Boundaries](#error-boundaries)
+  - [Component Lifecycle](#component-lifecycle)
+    - [Creation](#creation)
+    - [Update](#update)
+    - [Delete](#delete)
+  - [Functional Components Lifecycle](#functional-components-lifecycle)
+  - [Lifecycle optimization](#lifecycle-optimization)
+    - [shouldComponentUpdate on functional components](#shouldcomponentupdate-on-functional-components)
+    - [Pure Components](#pure-components)
+  - [Updating the DOM](#updating-the-dom)
+  - [Higher-Order Components](#higher-order-components)
+  - [PropTypes](#proptypes)
+  - [Refs](#refs)
+  - [Context](#context)
+    - [Context creation](#context-creation)
+    - [Context provider](#context-provider)
+    - [Context consumer](#context-consumer)
+    - [contextType](#contexttype)
+    - [useContext](#usecontext)
+  - [Planing a React App](#planing-a-react-app)
+  - [HTTP / AJAX](#http--ajax)
+    - [axios](#axios)
+      - [Interceptors](#interceptors)
+      - [Default properties](#default-properties)
+      - [axios instances](#axios-instances)
+  - [Routing](#routing)
+    - [BrowserRouter vs HashRouter](#browserrouter-vs-hashrouter)
+    - [Route](#route)
+      - [Route component props](#route-component-props)
+      - [Passing parameters](#passing-parameters)
+    - [Link](#link)
+      - [Retrieve parameters](#retrieve-parameters)
+      - [Relative paths](#relative-paths)
+    - [NavLink](#navlink)
+      - [Navigating Programmatically](#navigating-programmatically)
+    - [Switch](#switch)
+    - [Redirect](#redirect)
+    - [Handling 404](#handling-404)
+    - [Setting the base path](#setting-the-base-path)
+  - [Lazy Load](#lazy-load)
+  - [Redux](#redux)
+    - [Workflow](#workflow)
+      - [Central Store](#central-store)
+      - [Actions](#actions)
+      - [Reducers](#reducers)
+      - [Subscriptions](#subscriptions)
+    - [Connecting Redux to React](#connecting-redux-to-react)
+
 ## [Create React App](https://github.com/facebook/create-react-app)
 
 Instead of build a new project from scratch and configure everything, we will use Create React App which comes with all ready to go.
@@ -10,7 +82,7 @@ Instead of build a new project from scratch and configure everything, we will us
 npm install create-react-app -g
 ```
 
-_(-g for globally instalation)_
+**(-g for globally instalation)**
 In order to create a new react project:
 
 ```sh
@@ -43,7 +115,7 @@ In the `public` folder we can find the `index.html` which is sent to browser for
 <div id="root"></div>
 ```
 
-_Remember that the div with the root id is where all the components are rendered._
+**Remember that the div with the root id is where all the components are rendered.**
 
 In the `src` folder goes the logic and style of the app. Inside of `index.js` you can find the _magic_ which links the root id division with the components:
 
@@ -51,7 +123,7 @@ In the `src` folder goes the logic and style of the app. Inside of `index.js` yo
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-_The usually workflow is only the main App goes to root and inside of that main App we will nest the other components which can have other component nested too._
+**The usually workflow is only the main App goes to root and inside of that main App we will nest the other components which can have other component nested too.**
 
 In order to structure components we should follow the next pattern
 
@@ -83,7 +155,7 @@ In order to structure components we should follow the next pattern
 
 ## [JSX](https://reactjs.org/docs/introducing-jsx.html)
 
-JSX stands for JavaScript XML and allow us to write "HTML" in React. The use of JSX is not mandatory but is the standard nowadays for React usage.
+JSX stands for Javascript XML and allow us to write "HTML" in React. The use of JSX is not mandatory but is the standard nowadays for React usage.
 
 For example:
 
@@ -105,7 +177,7 @@ React.createElement(
 
 **It is a good practice to wrap all elements of the JSX in one root element, the div in this case.**
 
-_Since JSX is closer to JavaScript than to HTML, React DOM uses `camelCase` property naming convention instead of HTML attribute names. For `class` it becomes `className` because class is a keyword of the JavaScript language_
+_Since JSX is closer to JS than to HTML, React DOM uses `camelCase` property naming convention instead of HTML attribute names. For `class` it becomes `className` because class is a keyword of the JS language_
 
 ### Dynamic Content
 
@@ -139,7 +211,7 @@ const person = () => {
 export default person;
 ```
 
-_Remember we import React because we are using JSX and this behind the scenes is translate with `React.createlement`_
+**Remember we import React because we are using JSX and this behind the scenes is translate with `React.createlement`**
 
 Functional components does not have access to `Lifecycle Hooks` and the access to the state is only from React v16.8+ with the inclusion of Hooks with `useState()`.
 
@@ -168,7 +240,7 @@ class App extends Component {
 export default App;
 ```
 
-Class-vased components has access to the state and lifecycle hooks in any version of React.
+Class-based components has access to the state and lifecycle hooks in any version of React.
 
 The access to the state and props is done with `this` keyword:
 
@@ -213,7 +285,7 @@ const person = props => {
 };
 ```
 
-_If we are using a class-base component it will be `this.props`_
+**If we are using a class-base component it will be `this.props`**
 
 There's also another way of passing data from the "HTML" to the component logic and it's using a content in between of the component tag.
 
@@ -321,7 +393,7 @@ this.setState({
 
 **Do NOT mutate the state directly, React will ignore the changes. Instead use `this.setState()`**
 
-_Keep in mind any changes to props and/or state trigger React to re-render your components an ppotentially update the DOPM in the browser._
+**Keep in mind any changes to props and/or state trigger React to re-render your components an ppotentially update the DOPM in the browser.**
 
 ### Event Listeners
 
@@ -347,7 +419,7 @@ You can see a complete list of Reac supported events [here](https://reactjs.org/
 
 ## Render conditional content
 
-If you want render content in some scenarios you can wrap the code in JSX with {} and add a simple statement _If/else blocks does not work here_
+If you want render content in some scenarios you can wrap the code in JSX with {} and add a simple statement **If/else blocks does not work here**
 
 ```jsx
 {
@@ -387,7 +459,7 @@ In this example the code is small and it's no difference which way you choose, b
 
 ## Render List
 
-For render lists on React we will use the provided methods in JavaScript
+For render lists on React we will use the provided methods in JS
 
 ```javascript
 return (
@@ -403,7 +475,7 @@ React will try to print any array that it's returned and contain a object model 
 
 ### Key property
 
-When work with list you need to specify a key in order to inform React changes or which components are present on the screen. The `key` property has not be specified into the component because React always expects it but you must pass as an attribute. _Remember that the key must be an unique identifier._
+When work with list you need to specify a key in order to inform React changes or which components are present on the screen. The `key` property has not be specified into the component because React always expects it but you must pass as an attribute. **Remember that the key must be an unique identifier.**
 
 ```javascript
 return (
@@ -443,7 +515,7 @@ import './Person.css';
 </div>
 ```
 
-_When Webpack add your css into the header of main HTML will be prefixing the css in order to work in all browsers._
+**When Webpack add your css into the header of main HTML will be prefixing the css in order to work in all browsers.**
 
 There's also inline style.
 
@@ -457,7 +529,7 @@ const style = {
 };
 ```
 
-_Remember is a JavaScript object not a CSS, for that reason `camelCase` instead of dashes._
+**Remember is a JS object not a CSS, for that reason `camelCase` instead of dashes.**
 
 The benefit of inline style it is not have css globally (like the example above) and scoped/limited to the current component or event object.
 
@@ -515,7 +587,7 @@ style[':hover'] = {
 };
 ```
 
-Remember the properties of a JavaScript object can be defined with strings too, normally used this way if contain invalid caracters (like de `:`). Later on, when you want to manage that property, must be used with `[]`.
+Remember the properties of a JS object can be defined with strings too, normally used this way if contain invalid caracters (like de `:`). Later on, when you want to manage that property, must be used with `[]`.
 
 #### Using media queries
 
@@ -549,7 +621,7 @@ const classes = ['red', 'bold'].join(' '); // 'red bold' Valid CSS
 
 Fill the array in the statements you want, but in the end you must have a valid css.
 
-If you use in line style, it's a JavaScript object.
+If you use in line style, it's a JS object.
 
 ```javascript
 const style = {
@@ -605,13 +677,82 @@ import classes from './App.module.css';
 
 ### [Styled Components](https://styled-components.com/)
 
-Utilising tagged template literals (a recent addition to JavaScript) and the power of CSS, styled-components allows you to write actual CSS code to style your components.
+Utilising tagged template literals (a recent addition to JS) and the power of CSS, styled-components allows you to write actual CSS code to style your components.
 
 First of all, add to your project:
 
 ```javascript
 yarn add styled-components
 ```
+
+The idea behind styled-compoents is using **template literals** to style your components. When you're defining your styles, you're actually creating a normal React component, that has your styles attached to it.
+
+```javascript
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+width: 60%;
+margin: 16px auto;
+border: 1px solid #eee
+
+@media (min-width: 500px) {
+  width: 450px;
+}
+`;
+```
+
+The example above creates a div with some CSS in it, `styled.div` will return a React component, so if you want to use it in the same file:
+
+```javascript
+<StyledDiv>Some content into the styled div</StyledDiv>
+```
+
+You can style custom components in a similar way:
+
+```javascript
+import styled from 'styled-components';
+
+const StyledMyCustomComponent = styled(MyCustomComponent)`
+width: 60%;
+margin: 16px auto;
+border: 1px solid #eee
+
+@media (min-width: 500px) {
+  width: 450px;
+}
+`;
+
+<StyledMyCustomComponent>Some content into the styled div</StyledMyCustomComponent>
+```
+
+There are some key features you must know:
+
+- The CSS rules are automatically vendor prefixed, forget about writing the same flex, transition or other properties multiple times!
+- Class names are scoped to the component, like in **CSS Modules** the names you use in styled-components are "only" available for that component.
+
+There's one downside using CSS inside the template literals, no syntax highlight, here are the VSCode extension I use to have regular CSS highlight syntax [vscode-styled-components](https://marketplace.visualstudio.com/items?itemName=jpoissonnier.vscode-styled-components)
+
+#### Dynamic Styles
+
+You can pass a function to a styled component's template literal to adapt it based on its props.
+
+```javascript
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+width: 60%;
+margin: 16px auto;
+border: 1px solid ${props => props.isBlack ? 'black' : 'white'}
+
+@media (min-width: 500px) {
+  width: 450px;
+}
+`;
+
+<StyledDiv isBlack={this.state.isBlack}>Some content into the styled div</StyledDiv>
+```
+
+In the example above we pass a new prop to the `StyledDiv`, we can use that prop in a function ("interpolation") inside of the template literal and dice which string we want to return.
 
 ## [Error Boundaries](https://reactjs.org/docs/error-boundaries.html)
 
@@ -764,7 +905,7 @@ Some useful escenarios for use React.memo:
 
 Some general rule to avoid the use of React.memo:
 
-_Don't use memoization if you can't quantify the performance gains._ First check with profiling and get 100% sure you're getting benefits and the functionally remains correct.
+**Don't use memoization if you can't quantify the performance gains.** First check with profiling and get 100% sure you're getting benefits and the functionally remains correct.
 
 ### Pure Components
 
@@ -818,7 +959,7 @@ const withClass = (WrappedComponent, className) => {
 export default withClass(App, classes.App);
 ```
 
-_Take special attention which attributes are used with capital letters._
+**Take special attention which attributes are used with capital letters.**
 
 One useful HOC is `Fragment`, every return/render in a component must return a single child element, if you don't want to wrap everything on a unnecesary `<div>` you can use the HOC `Fragment`.
 
@@ -1090,8 +1231,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 At the core of every React Router application should be a router component. The main difference between the two is the way they store the URL and communicate with your web server.
 
-- `<BrowserRouter>` uses regular URL paths. These are generally *the best-looking URLs*, but they require your server to be configured correctly.
-- `<HashRouter>` stores the current location in *the hash portion of the URL*, so the URL looks something like `http://example.com/#/your/page`. Since the hash is never sent to the server, this mean that no special server configuration is needed.
+- `<BrowserRouter>` uses regular URL paths. These are generally **the best-looking URLs**, but they require your server to be configured correctly.
+- `<HashRouter>` stores the current location in **the hash portion of the URL**, so the URL looks something like `http://example.com/#/your/page`. Since the hash is never sent to the server, this mean that no special server configuration is needed.
 
 ### Route
 
@@ -1102,12 +1243,12 @@ You can use `Route` component anywhere on your project, react-router will check 
 <Route path="/" exact component={MyComponent} />
 ```
 
-*If you have multiple routes, it will be parsed top to bottom.*
+**If you have multiple routes, it will be parsed top to bottom.**
 
 Following the example above:
 
-- `path` stands for if the URL *starts with* the given value.
-- `exact` is a boolean property which turns the starts with to *if the full URL is the same than the value in the path property*.
+- `path` stands for if the URL **starts with** the given value.
+- `exact` is a boolean property which turns the starts with to **if the full URL is the same than the value in the path property**.
 - `render` will display the JSX content passed in.
 - `component` will render a component, the component must be imported first.
 
@@ -1121,12 +1262,12 @@ Using `render` instead of `component` can be useful when you want to pass props 
 
 The component rendered within `component` attribute will recieve the following additional props:
 
-- `history` This refers to the `history package`, which is one of the major dependencies of react-router. The history library lets you easily manage session history anywhere JavaScript runs. `history` abstract away the differences in various environments and provides a minimal API that lets you manage the history stack, navigate, and persist state between sessions.
+- `history` This refers to the `history package`, which is one of the major dependencies of react-router. The history library lets you easily manage session history anywhere JS runs. `history` abstract away the differences in various environments and provides a minimal API that lets you manage the history stack, navigate, and persist state between sessions.
 - `location` represents where the app is now, where you want it to go, or even where it was.
 - `match` contains information about how `<Route path>` matched the URL.
 - `staticContext`
 
-This props are only available for the first component passed in the `component` attribute, *child components will not recieve this props at least you pass it manually*.
+This props are only available for the first component passed in the `component` attribute, **child components will not recieve this props at least you pass it manually**.
 
 In order to pass the props to the child components, you can do it in two ways:
 
@@ -1318,7 +1459,7 @@ import { Redirect } from 'react-router-dom';
 </Switch>
 ```
 
-*If `Redirect` is outside of `Switch`, `from` can't be specified.*
+**If `Redirect` is outside of `Switch`, `from` can't be specified.**
 
 You can achieve the same behaviour by duplicatting the Routes:
 
@@ -1329,7 +1470,7 @@ You can achieve the same behaviour by duplicatting the Routes:
 </Switch>
 ```
 
-*This approach will not modify the URL.*
+**This approach will not modify the URL.**
 
 Another way to achieve redirection is using the `history` prop we saw above.
 
@@ -1337,9 +1478,9 @@ Another way to achieve redirection is using the `history` prop we saw above.
 this.props.history.push('/posts');
 ```
 
-Using this approach you can use the *navigation back* to return to the previous screen, with `Redirect` you can't do it because is replacing the URL not pushing on the `history` stack.
+Using this approach you can use the **navigation back** to return to the previous screen, with `Redirect` you can't do it because is replacing the URL not pushing on the `history` stack.
 
-*If you want to achieve the exact same effect with `history` and `Redirect` use `replace()` instead of `push()`.*
+**If you want to achieve the exact same effect with `history` and `Redirect` use `replace()` instead of `push()`.**
 
 ### Handling 404
 
@@ -1349,7 +1490,7 @@ Previously we saw the `Redirect` component.
 <Redirect from="/" to="/posts" />
 ```
 
-With the example above, any route that is unknown will be redirected to `/posts` but if we want to send the user to a *Not Found* page:
+With the example above, any route that is unknown will be redirected to `/posts` but if we want to send the user to a **Not Found** page:
 
 ```javascript
 <Route component={My404} />
@@ -1367,7 +1508,7 @@ By default the `basename` property is `/`:
 <BrowserRouter basename="/">
 // Some stuff here
 </BrowserRouter>
-``` 
+```
 
 For example if your app is on `example.com/my-app` you'll need this configuration:
 
@@ -1381,7 +1522,7 @@ For example if your app is on `example.com/my-app` you'll need this configuratio
 
 The `Link` will render an `<a href="/my-app/posts">`.
 
-*A properly formatted basename should have a leading slash, but no trailing slash.*
+**A properly formatted basename should have a leading slash, but no trailing slash.**
 
 ## Lazy Load
 
@@ -1409,4 +1550,194 @@ Only when the user goes to `/post` all the code related to `Post` component will
 
 The component loaded in lazy should be inside a `Suspense` component which has a `fallback` props that accepts any React elements that will be displayed until the component is loaded.
 
-*You can wrap multiple lazy components with a single `Suspense` component.*
+**You can wrap multiple lazy components with a single `Suspense` component.**
+
+## [Redux](https://redux.js.org/)
+
+Redux is a third-party package independant from React (but mostly used with React) that is a state container for JS apps.
+
+For install Redux use:
+
+```bash
+npm install --save redux
+
+yarn add redux
+```
+
+### Workflow
+
+First we need to understand the Redux's worklow (the example will be focus on a React environment):
+
+#### Central Store
+
+We have a **Cental Store** which stores the entire application state, think about it as a large JS object. The store has the following responsabilities:
+
+- Holds application state.
+- Allows access to ttate via `getState()`.
+- Allows state to be updated via `dispatch(action)`.
+- Registers listeners via `subscribe(listener)`.
+- Handles unregistering of listeners via the function returned by `subscribe(listener)`.
+
+In React we have **Components** that may want **manipulate app state**, they do through **Dispatches**.
+
+#### Actions
+
+Redux's **Actions** will recieve **dispatches** from Components, this actions are payloads of information, they are plain JS objects and must have a `type` property that indicates the type of action being performed.
+
+Other than type, the srructure of an action object is really up to you.
+
+If you're interested, check out [Flux Standard Action](https://github.com/acdlite/flux-standard-action) for recommendations on how actions could be constructed.
+
+#### Reducers
+
+Redux also have **Reducers**  which specify how the application's state changes in response to **actions**. They recieve actions and updates the **State** (pure, sync functions, no side-effects!).
+
+If the actions represents what happened, reducers describes **how the application's state changes**.
+
+#### Subscriptions
+
+Once the **Store** is updated through the **Reducer** the component which dispatched the **Action** needs to be aware of the changes, for that the component must be **Subscribed** to recieve the update state of the application.
+
+Here you can check a summary example made in NodeJS:
+
+```javascript
+const redux = require('redux');
+const createStore = redux.createStore;
+
+const initialState = {
+    counter: 0
+};
+
+// Reducer
+const rootReducer = (state = initialState, action) => {
+    if (action.type === 'INC_COUNTER') {
+        return {
+            ...state,
+            counter: state.counter + 1
+        };
+    }
+
+    if (action.type === 'ADD_COUNTER') {
+        return {
+            ...state,
+            counter: state.counter + action.value
+        };
+    }
+    return state;
+};
+
+// Store
+const store = createStore(rootReducer);
+console.log('[Store initialization]', store.getState());
+
+// Subscription
+store.subscribe(() => {
+    console.log('[Subscription]', store.getState());
+});
+
+// Dispatching Action
+store.dispatch({ type: 'INC_COUNTER' });
+store.dispatch({ type: 'ADD_COUNTER', value: 10 });
+console.log('[Dispatched actions]', store.getState());
+```
+
+- The **store creation** needs a **reducer**.
+- The **reducer** will have the `initialState` if no other state is provided. Depend of the **action** will modify (**in a inmutable way**) the state.
+- The **action** will be **dispatched** always with a JS object which has `type` and may have a payload, it can have any form you want.
+- The **store** has **subscriptions** which will react to any changes.
+
+### Connecting Redux to React
+
+React bindings are not included in Redux by default. You need to install them explicitly:
+
+```bash
+yarn add react-redux
+
+npm install --save react-redux
+```
+
+After installing `redux` and `react-redux` to our project, we add the following lines to the `index.js`:
+
+```javascript
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './store/reducer';
+
+const store = createStore(reducer);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
+```
+
+We just learn that the store creation needs a `reducer` for that we create the `reducer.js`.
+
+```javascript
+const initialState = {
+    counter: 0
+};
+
+const reducer = (state = initialState, action) => {
+    if(action.type === 'INCREMENT') {
+      return {
+        counter: state.counter + 1
+      };
+    }
+
+    return state;
+};
+
+export default reducer;
+
+```
+
+The `Provider` comes from `react-redux` and needs our `store` as a prop, this will provide context to our all application but we need to do more stuff in the components to gain access to the store.
+
+```javascript
+import React from 'react';
+import { connect } from 'react-redux';
+
+const MyComponent = props => {
+  return (
+    <div>
+      <span>
+        Useful component which has {props.myCustomCounter}
+      </span>
+      <button onClick={props.onIncrementCounter}>Fancy Button</button>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    myCustomCounter: state.counter
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIncrementCounter: () => dispatch({ type: 'INCREMENT' })
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent)
+```
+
+In our component we import the `connect` function, this function will return another function which will take our component as a parameter.
+
+The parameters for the `connect` function are `mapStateToProps` and `mapDispatchToProps`, the names are up to you but you will saw this names in general.
+
+The `mapStateToProps` will take some parts of the general state provided by redux and "map" to the props of the component.
+
+In a large application you will take some pieces of the state for each component instead of managing the entire state in every component.
+
+The `mapDispatchToProps` will specify which actions the component can make.
+
+If your component only have actions and no need access to the state at all you can do the following:
+
+```javascript
+export default connect(null, mapDispatchToProps)(MyComponent)
+```
