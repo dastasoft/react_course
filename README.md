@@ -73,6 +73,8 @@ My progress on Udemy's React course from Maximilian Schwarzmüller
       - [Reducers](#reducers)
       - [Subscriptions](#subscriptions)
     - [Connecting Redux to React](#connecting-redux-to-react)
+    - [Outsourcing actions](#outsourcing-actions)
+    - [Using multiple reducers](#using-multiple-reducers)
 
 ## [Create React App](https://github.com/facebook/create-react-app)
 
@@ -1741,3 +1743,56 @@ If your component only have actions and no need access to the state at all you c
 ```javascript
 export default connect(null, mapDispatchToProps)(MyComponent)
 ```
+
+### Outsourcing actions
+
+Actions are dispatched and recieved through strings which can be a good place to introduce bugs by typos, for that we want to outsource actions and add more security to this.
+
+In a separate JS file:
+
+```javascript
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+```
+
+**Names are up to you but it's common to have both names equal.**
+
+Now on every place we use actions:
+
+```javascript
+import * as actionTypes from './actions';
+
+if (action.type === actionTypes.INCREMENT) {
+  console.log('Plus One')
+}
+```
+
+With this, if we type wrong the constant, we get an error and will be aware that some action will not work.
+
+### Using multiple reducers
+
+Redux has one feature to combine multiple reducers in one:
+
+```javascript
+import { createStore, combineReducers } from 'redux';
+
+const rootReducer = combineReducers({
+    ctr: counterReducer,
+    res: resultReducer
+});
+
+const store = createStore(rootReducer);
+```
+
+When combine multiple reducers the access to the state changes too:
+
+```javascript
+const mapStateToProps = state => {
+    return {
+        counter: state.ctr.counter,
+        storedResults: state.res.results
+    };
+};
+```
+
+Now on the global state, we have access to the two pieces of the state we created above, this is done by `combineReducers` in order to avoid same names in different reducers collide.
