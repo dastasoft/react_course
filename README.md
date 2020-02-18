@@ -75,6 +75,7 @@ My progress on Udemy's React course from Maximilian Schwarzmüller
     - [Connecting Redux to React](#connecting-redux-to-react)
     - [Outsourcing actions](#outsourcing-actions)
     - [Using multiple reducers](#using-multiple-reducers)
+    - [Attaching Redux DevTools Extension](#attaching-redux-devtools-extension)
 
 ## [Create React App](https://github.com/facebook/create-react-app)
 
@@ -1796,3 +1797,14 @@ const mapStateToProps = state => {
 ```
 
 Now on the global state, we have access to the two pieces of the state we created above, this is done by `combineReducers` in order to avoid same names in different reducers collide.
+
+### Attaching [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
+
+For using Redux DevTools Extension and see changes on the store in the dev tools you need to add this in the store creation:
+
+```javascript
+const store = createStore(
+    reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+```
