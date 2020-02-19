@@ -9,7 +9,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_PERSON:
             return {
                 ...state,
-                persons: state.persons.concat(action.payload)
+                persons: state.persons.concat({
+                    ...action.payload,
+                    id: action.payload.name + action.payload.age
+                })
             };
         case actionTypes.DELETE_PERSON:
             return {
