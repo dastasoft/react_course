@@ -74,8 +74,13 @@ My progress on Udemy's React course from Maximilian Schwarzmüller
       - [Subscriptions](#subscriptions)
     - [Connecting Redux to React](#connecting-redux-to-react)
     - [Outsourcing actions](#outsourcing-actions)
+    - [Actions vs Action Creators](#actions-vs-action-creators)
     - [Using multiple reducers](#using-multiple-reducers)
-    - [Attaching Redux DevTools Extension](#attaching-redux-devtools-extension)
+    - [Middleware](#middleware)
+    - [Async actions](#async-actions)
+    - [Action Creators vs Reducers](#action-creators-vs-reducers)
+    - [Redux DevTools Extension](#redux-devtools-extension)
+      - [Basic Usage](#basic-usage)
 
 ## [Create React App](https://github.com/facebook/create-react-app)
 
@@ -1770,6 +1775,51 @@ if (action.type === actionTypes.INCREMENT) {
 
 With this, if we type wrong the constant, we get an error and will be aware that some action will not work.
 
+### Actions vs Action Creators
+
+We've just learn actions and outsourcing the actions in action types, there is one more way to manage actions with **Action Creators**.
+
+Action Creators are functions that create actions, like this:
+
+```javascript
+export const increment = () => {
+  return {
+    type: INCREMENT
+  };
+};
+
+export const storeResult = result => {
+  return {
+    type: STORE_RESULT,
+    result
+  };
+};
+```
+
+_The naming convention for action creators is camelCase of the action's type name._
+
+For using our recently created action we only need to import them as use as regular functions:
+
+```javascript
+import { increment, storeResult } from '../store/actions/actions';
+
+const mapDispatchToProps = dispatch => {
+  return {
+    //onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
+    onIncrementCounter: () => dispatch(increment()),
+    //onStoreResult: result => dispatch({ type: actionTypes.STORE_RESULT, result})
+    onStoreResult: result => dispatch(storeResult(result))
+  };
+};
+```
+
+So, what are the benefits of using Action Creators?
+
+- Make actions portable
+- Are easy to test
+- Can be asynchronous
+- Have side-effects
+
 ### Using multiple reducers
 
 Redux has one feature to combine multiple reducers in one:
@@ -1798,7 +1848,124 @@ const mapStateToProps = state => {
 
 Now on the global state, we have access to the two pieces of the state we created above, this is done by `combineReducers` in order to avoid same names in different reducers collide.
 
-### Attaching [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
+### [Middleware](https://redux.js.org/advanced/middleware/)
+
+Middleware is some code you can put between the framework receiving a request, and the framework generating a response.
+
+Redux middlware provides a third-party extension point **between dispatching an action, and the moment it reaches the reducer.** People use Redux middleware for logging, crash reporting, talking to an asynchronous API, routing, and more.
+
+For applying one middleware, a logger, to a Redux store:
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+
+const logger = store => next => action => {
+    console.log('[Middleware] Dispatching', action);
+    const result = next(action);
+    console.log('[Middleware] next state', store.getState());
+    return result;
+};
+
+const store = createStore(
+    someReducer,
+    applyMiddleware(logger)
+);
+```
+
+You can apply as many middleware as you need:
+
+```javascript
+const store = createStore(
+    someReducer,
+    applyMiddleware(logger, anotherMiddleware, evenAnotherMiddleware)
+);
+```
+
+`applyMiddleware()` tells `createStore()` how to handle middleware.
+
+### Async actions
+
+Before I mention Action Creators can be asynchronous, let's see how to achieve async code in actions.
+
+The standard way to use action creators with async code is to use the [Redux Thunk middleware](https://github.com/reduxjs/redux-thunk), which is a separate package called `redux-thunk`.
+
+A `thunk` is subroutine used to inject an additional calculation into another subroutine. Thunks are primarily used to delay a calculation until its result is needed.
+
+```javascript
+let x = 1 + 2;
+
+let callMe = () => 1 + 2;
+```
+
+`callMe` is a thunk because instead of calculate the result immediatly like `x` does, can be called later to perform the calculation.
+
+First of all, enable the `thunk` middleware:
+
+```javascript
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+
+const store = createStore(
+    someReducer,
+    applyMiddleware(thunk)
+);
+```
+
+Now let's turn one of our action creators async with a simple `setTimeout()`:
+
+```javascript
+const storeResultSync = result => {
+    return {
+        type: STORE_RESULT,
+        result
+    };
+};
+
+export const storeResult = result => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(storeResultSync(result));
+        }, 2000);
+    };
+};
+```
+
+When an action creator returns a function, **that function will get executed by the Redux Thunk middleware.** As you can see in the example, the function returned can execute async code and dispatch actions, like those synchronous actions we defined earlier.
+
+### Action Creators vs Reducers
+
+After learning **Action Creators** and **Reducers** there are one topic left to cover, where do I put the logic?
+
+```javascript
+// Action Creator
+const storeResult = result => {
+    return {
+        type: 'STORE_RESULT',
+        result: result * 2
+    };
+};
+
+// Reducer
+const reducer = (state, action) => {
+  if (action.type === 'STORE_RESULT') {
+    return {
+        ...state,
+        results: state.results.concat({
+          id: new Date(),
+          value: action.result * 2
+        })
+    };
+  }
+
+  return state;
+};
+```
+
+In the example above, the `result` value is modified (* 2), in one example is done in the action creator and on the other on the reduce, which one is valid? Both of them will work, however, action creator allows to handle async data while reducer is a pure function with sync code only.
+
+As a general rule of thumb, the logic will go to the **Reducer** because is a **core redux concept that reducers update the state**, if we need async data, we will use action creators with `redux thunk` and all of the modifications to that data will happend on the reducer.
+
+### [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
 
 For using Redux DevTools Extension and see changes on the store in the dev tools you need to add this in the store creation:
 
@@ -1808,3 +1975,31 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 ```
+
+If you already have a middleware, use this instead:
+
+```javascript
+import { createStore, applyMiddleware, compose } from 'redux';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+    someReducer,
+    composeEnhancers(applyMiddleware(someMiddleware))
+);
+```
+
+#### Basic Usage
+
+![image](https://user-images.githubusercontent.com/7957859/48663602-3aac4900-ea9b-11e8-921f-97059cbb599c.png)
+
+On the left panel you can view a list of the dispatched actions, inside of each action you can check:
+
+- The action type and the payload.
+- The current state of the central store.
+- How the state has changed with the given action.
+
+For every action, you can:
+
+- Jump: Go to that specific point in time.
+- Skip: "Remove" that single action to check how will end the store without that action.
