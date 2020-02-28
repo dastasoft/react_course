@@ -1,23 +1,34 @@
 import React from 'react';
+import { bool, object, string, func } from 'prop-types';
 
 import classes from './Input.module.css';
 
-const input = props => {
+const input = ({
+    invalid,
+    shouldValidate,
+    touched,
+    elementType,
+    elementConfig,
+    value,
+    changed,
+    label,
+    className
+}) => {
     let inputElement = null;
-    const inputClasses = [classes.InputElement];
+    const inputClasses = [classes.InputElement, className];
 
-    if (props.invalid && props.shouldValidate && props.touched) {
+    if (invalid && shouldValidate && touched) {
         inputClasses.push(classes.Invalid);
     }
 
-    switch (props.elementType) {
+    switch (elementType) {
         case 'input':
             inputElement = (
                 <input
                     className={inputClasses.join(' ')}
-                    {...props.elementConfig}
-                    value={props.value}
-                    onChange={props.changed}
+                    {...elementConfig}
+                    value={value}
+                    onChange={changed}
                 />
             );
             break;
@@ -25,9 +36,9 @@ const input = props => {
             inputElement = (
                 <textarea
                     className={inputClasses.join(' ')}
-                    {...props.elementConfig}
-                    value={props.value}
-                    onChange={props.changed}
+                    {...elementConfig}
+                    value={value}
+                    onChange={changed}
                 />
             );
             break;
@@ -35,10 +46,10 @@ const input = props => {
             inputElement = (
                 <select
                     className={inputClasses.join(' ')}
-                    value={props.value}
-                    onChange={props.changed}
+                    value={value}
+                    onChange={changed}
                 >
-                    {props.elementConfig.options.map(option => (
+                    {elementConfig.options.map(option => (
                         <option key={option.value} value={option.value}>
                             {option.displayValue}
                         </option>
@@ -50,16 +61,16 @@ const input = props => {
             inputElement = (
                 <input
                     className={inputClasses.join(' ')}
-                    {...props.elementConfig}
-                    value={props.value}
-                    onChange={props.changed}
+                    {...elementConfig}
+                    value={value}
+                    onChange={changed}
                 />
             );
             break;
     }
 
     let validationError = null;
-    if (props.invalid && props.touched) {
+    if (invalid && touched) {
         validationError = (
             <p className={classes.ValidationError}>
                 Please enter a valid value.
@@ -69,11 +80,35 @@ const input = props => {
 
     return (
         <div className={classes.Input}>
-            <label className={classes.Label}>{props.label}</label>
+            <label className={classes.Label}>{label}</label>
             {inputElement}
             {validationError}
         </div>
     );
+};
+
+input.propTypes = {
+    invalid: bool,
+    shouldValidate: object,
+    touched: bool,
+    elementType: string,
+    elementConfig: object,
+    value: string,
+    changed: func,
+    label: string,
+    className: string
+};
+
+input.defaultProps = {
+    invalid: false,
+    shouldValidate: {},
+    touched: false,
+    elementType: '',
+    elementConfig: {},
+    value: '',
+    changed: () => {},
+    label: '',
+    className: ''
 };
 
 export default input;

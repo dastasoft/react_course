@@ -1,21 +1,36 @@
 import React from 'react';
+import { bool, func, node, string } from 'prop-types';
 
 import classes from './Modal.module.css';
 import Backdrop from '../Backdrop/Backdrop';
 
-const modal = props => (
+const modal = ({ show, modalClosed, children, className }) => (
     <>
-        <Backdrop show={props.show} clicked={props.modalClosed} />
+        <Backdrop show={show} clicked={modalClosed} />
         <div
-            className={classes.Modal}
+            className={`${classes.Modal} ${className}`}
             style={{
-                transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
-                opacity: props.show ? '1' : '0'
+                transform: show ? 'translateY(0)' : 'translateY(-100vh)',
+                opacity: show ? '1' : '0'
             }}
         >
-            {props.children}
+            {children}
         </div>
     </>
 );
+
+modal.propTypes = {
+    show: bool,
+    modalClosed: func,
+    children: node,
+    className: string
+};
+
+modal.defaultProps = {
+    show: false,
+    modalClosed: () => {},
+    children: null,
+    className: ''
+};
 
 export default React.memo(modal);

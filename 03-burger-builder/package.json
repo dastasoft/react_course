@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "axios": "^0.19.2",
+        "prop-types": "^15.7.2",
         "react": "^16.11.0",
         "react-dom": "^16.11.0",
         "react-redux": "^7.2.0",
@@ -32,5 +33,15 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "bit-bin": "^14.7.6"
+    },
+    "bit": {
+        "env": {
+            "compiler": "bit.envs/compilers/react@1.0.14"
+        },
+        "componentsDefaultDirectory": "components/{name}",
+        "packageManager": "yarn"
     }
 }

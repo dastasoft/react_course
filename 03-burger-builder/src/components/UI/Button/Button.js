@@ -1,15 +1,32 @@
 import React from 'react';
+import { bool, func, node, string } from 'prop-types';
 
 import classes from './Button.module.css';
 
-const button = props => (
+const button = ({ disabled, clicked, children, btnType, className }) => (
     <button
-        disabled={props.disabled}
-        className={[classes.Button, classes[props.btnType]].join(' ')}
-        onClick={props.clicked}
+        disabled={disabled}
+        className={[classes.Button, classes[btnType], className].join(' ')}
+        onClick={clicked}
     >
-        {props.children}
+        {children}
     </button>
 );
+
+button.propTypes = {
+    disabled: bool,
+    clicked: func,
+    children: node,
+    btnType: string,
+    className: string
+};
+
+button.defaultProps = {
+    disabled: false,
+    clicked: () => {},
+    children: null,
+    btnType: '',
+    className: ''
+};
 
 export default button;
